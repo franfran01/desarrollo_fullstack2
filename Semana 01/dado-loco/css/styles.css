@@ -1,0 +1,424 @@
+/* ==========================================================
+   Dado Loco - Hoja de estilos principal
+   ========================================================== */
+
+/* ---------- Variables CSS ---------- */
+:root {
+  --color-primario: #6c2bd9;
+  --color-secundario: #ff4f81;
+  --color-acento: #ffc93c;
+  --color-fondo: #f6f3ff;
+  --color-tarjeta: #ffffff;
+  --color-texto: #2b2540;
+  --color-texto-suave: #6b6585;
+  --color-oferta: #e63946;
+  --color-normal: #2a9d8f;
+
+  --degradado: linear-gradient(135deg, var(--color-primario), var(--color-secundario));
+  --sombra: 0 6px 18px rgba(60, 30, 120, 0.15);
+  --sombra-hover: 0 14px 30px rgba(60, 30, 120, 0.28);
+  --radio: 16px;
+  --espacio: 1.5rem;
+  --ancho-max: 1150px;
+  --fuente: "Segoe UI", Roboto, Arial, sans-serif;
+  --transicion: 0.3s ease;
+}
+
+/* ---------- Base ---------- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--fuente);
+  background: var(--color-fondo);
+  color: var(--color-texto);
+  line-height: 1.6;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.contenedor {
+  width: 100%;
+  max-width: var(--ancho-max);
+  margin: 0 auto;
+  padding: var(--espacio);
+}
+
+/* ---------- Encabezado y navegación ---------- */
+.encabezado {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.9rem var(--espacio);
+  background: var(--degradado);
+  color: #fff;
+  box-shadow: var(--sombra);
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.5rem;
+  font-weight: 800;
+}
+
+.logo-dado {
+  display: inline-block;
+  font-size: 2rem;
+  animation: girar 6s linear infinite;
+}
+
+.menu {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.menu a {
+  display: block;
+  padding: 0.45rem 0.9rem;
+  border-radius: 999px;
+  font-weight: 600;
+  transition: background var(--transicion), color var(--transicion);
+}
+
+.menu a:hover,
+.menu a.activo {
+  background: #fff;
+  color: var(--color-primario);
+}
+
+/* ---------- Hero (página principal) ---------- */
+.hero {
+  text-align: center;
+  padding: 4.5rem var(--espacio);
+  color: #fff;
+  background: linear-gradient(-45deg, var(--color-primario), var(--color-secundario), var(--color-acento), var(--color-primario));
+  background-size: 400% 400%;
+  animation: fondo-animado 12s ease infinite;
+}
+
+.hero h1 {
+  font-size: 3.5rem;
+  letter-spacing: 2px;
+  text-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  animation: flotar 3s ease-in-out infinite;
+}
+
+.hero p {
+  font-size: 1.2rem;
+  max-width: 600px;
+  margin: 0.5rem auto 0;
+}
+
+.titulo-seccion {
+  text-align: center;
+  font-size: 2rem;
+  margin: 1rem 0 2rem;
+  color: var(--color-primario);
+}
+
+/* ---------- Grilla de tarjetas ---------- */
+.grilla {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--espacio);
+}
+
+.categoria,
+.ficha {
+  position: relative;
+  background: var(--color-tarjeta);
+  border-radius: var(--radio);
+  overflow: hidden;
+  box-shadow: var(--sombra);
+  transition: transform var(--transicion), box-shadow var(--transicion);
+  animation: aparecer 0.7s ease both;
+}
+
+/* Las tarjetas aparecen una tras otra */
+.grilla > :nth-child(2) { animation-delay: 0.15s; }
+.grilla > :nth-child(3) { animation-delay: 0.3s; }
+.grilla > :nth-child(4) { animation-delay: 0.45s; }
+
+.categoria:hover,
+.ficha:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--sombra-hover);
+}
+
+.categoria a {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.categoria img,
+.ficha img {
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  width: 100%;
+  transition: transform var(--transicion);
+}
+
+.categoria:hover img,
+.ficha:hover img {
+  transform: scale(1.05);
+}
+
+.categoria h3,
+.categoria p {
+  padding: 0 1rem;
+}
+
+.categoria h3 {
+  margin-top: 1rem;
+  color: var(--color-primario);
+}
+
+.categoria p {
+  color: var(--color-texto-suave);
+  flex: 1;
+}
+
+.categoria .boton {
+  margin: 1rem;
+  align-self: flex-start;
+}
+
+/* ---------- Página de categoría ---------- */
+.cabecera-categoria {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.cabecera-categoria h1 {
+  font-size: 2.5rem;
+  background: var(--degradado);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.cabecera-categoria p {
+  color: var(--color-texto-suave);
+}
+
+.grilla:has(.ficha) {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.ficha-cuerpo {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.ficha h3 {
+  color: var(--color-primario);
+}
+
+.ficha-desc {
+  color: var(--color-texto-suave);
+  font-size: 0.95rem;
+}
+
+.precio {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  font-size: 1.4rem;
+}
+
+.precio del {
+  font-size: 1rem;
+  color: var(--color-texto-suave);
+}
+
+.descuento {
+  align-self: flex-start;
+  padding: 0.2rem 0.7rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.descuento.si { background: var(--color-oferta); }
+.descuento.no { background: var(--color-normal); }
+
+.badge-descuento {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 1;
+  padding: 0.4rem 0.8rem;
+  border-radius: 999px;
+  background: var(--color-acento);
+  color: var(--color-texto);
+  font-weight: 800;
+  box-shadow: var(--sombra);
+  animation: latido 1.4s ease-in-out infinite;
+}
+
+/* ---------- Botones y paginación ---------- */
+.boton {
+  display: inline-block;
+  padding: 0.6rem 1.2rem;
+  border-radius: 999px;
+  background: var(--degradado);
+  color: #fff;
+  font-weight: 700;
+  transition: transform var(--transicion), box-shadow var(--transicion);
+}
+
+.boton:hover {
+  transform: scale(1.06);
+  box-shadow: var(--sombra-hover);
+}
+
+.paginacion {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 2.5rem;
+}
+
+.boton-inicio {
+  background: var(--color-acento);
+  color: var(--color-texto);
+}
+
+/* ---------- Pie de página ---------- */
+.pie {
+  margin-top: 3rem;
+  padding: 1.5rem;
+  text-align: center;
+  background: var(--color-texto);
+  color: #fff;
+}
+
+/* ==========================================================
+   Animaciones (@keyframes)
+   ========================================================== */
+
+/* 1. Las tarjetas aparecen deslizándose hacia arriba */
+@keyframes aparecer {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* 2. El dado del logo gira */
+@keyframes girar {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* 3. El título principal flota */
+@keyframes flotar {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-10px); }
+}
+
+/* 4. La etiqueta de descuento late */
+@keyframes latido {
+  0%, 100% { transform: scale(1); }
+  50%      { transform: scale(1.15); }
+}
+
+/* 5. El fondo del hero cambia de color */
+@keyframes fondo-animado {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* ==========================================================
+   Responsividad (media queries)
+   ========================================================== */
+
+/* Tablet */
+@media (max-width: 992px) {
+  .grilla,
+  .grilla:has(.ficha) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .encabezado {
+    flex-direction: column;
+  }
+
+  .menu {
+    justify-content: center;
+  }
+}
+
+/* Celular */
+@media (max-width: 600px) {
+  :root {
+    --espacio: 1rem;
+  }
+
+  .grilla,
+  .grilla:has(.ficha) {
+    grid-template-columns: 1fr;
+  }
+
+  .hero {
+    padding: 3rem var(--espacio);
+  }
+
+  .hero h1 {
+    font-size: 2.4rem;
+  }
+
+  .cabecera-categoria h1 {
+    font-size: 2rem;
+  }
+
+  .menu a {
+    padding: 0.35rem 0.7rem;
+    font-size: 0.9rem;
+  }
+
+  .paginacion {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+
+/* Accesibilidad: respeta a quien prefiere menos movimiento */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
