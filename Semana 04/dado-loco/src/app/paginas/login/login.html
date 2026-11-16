@@ -1,0 +1,33 @@
+<main class="container py-4">
+  <section class="cabecera-categoria">
+    <h1>Iniciar sesión</h1>
+    <p>Ingresa para ver tu perfil y tus compras en Dado Loco.</p>
+  </section>
+
+  <div class="row justify-content-center">
+    <div class="col-12 col-sm-10 col-md-7 col-lg-5">
+      <form class="formulario" (ngSubmit)="ingresar()">
+        <div class="mb-3">
+          <label for="usuario" class="form-label">Usuario o correo</label>
+          <input type="text" class="form-control" id="usuario" name="usuario" autocomplete="username" [(ngModel)]="usuario">
+        </div>
+        <div class="mb-3">
+          <label for="clave" class="form-label">Contraseña</label>
+          <input type="password" class="form-control" id="clave" name="clave" autocomplete="current-password" [(ngModel)]="clave">
+        </div>
+        <button type="submit" class="boton w-100">Ingresar</button>
+        <div class="d-flex flex-column flex-sm-row justify-content-between gap-2 mt-3 small">
+          <a routerLink="/recuperar">¿Olvidaste tu contraseña?</a>
+          <a routerLink="/registro">¿No tienes cuenta? Regístrate</a>
+        </div>
+      </form>
+      <div class="alert alert-danger mt-3" role="alert" *ngIf="error">{{ error }}</div>
+
+      <aside class="alert alert-secondary mt-4 small">
+        <strong>Cuentas de prueba</strong><br>
+        Cliente: <code>cliente</code> / <code>Cliente123</code><br>
+        Administrador: <code>admin</code> / <code>Admin123</code>
+      </aside>
+    </div>
+  </div>
+</main>

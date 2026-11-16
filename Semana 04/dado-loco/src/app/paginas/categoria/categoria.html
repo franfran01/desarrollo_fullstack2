@@ -1,0 +1,27 @@
+<main class="container py-4">
+  <ng-container *ngIf="categoria; else noEncontrada">
+    <section class="cabecera-categoria">
+      <h1>{{ categoria.emoji }} {{ categoria.nombre }}</h1>
+      <p>{{ categoria.descripcion }}</p>
+    </section>
+
+    <section class="grilla row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4" aria-live="polite">
+      <app-ficha-producto *ngFor="let p of productos" [producto]="p" [puedeComprar]="sesion.puedeComprar" />
+      <p class="col-12 text-center" *ngIf="!productos.length">Por ahora no hay juegos en esta categoría.</p>
+    </section>
+
+    <nav class="paginacion d-flex flex-column flex-sm-row flex-wrap justify-content-between gap-3 text-center">
+      <a [routerLink]="['/categoria', anterior.id]" class="boton">&larr; {{ anterior.nombre }}</a>
+      <a routerLink="/" class="boton boton-inicio">Volver al inicio</a>
+      <a [routerLink]="['/categoria', siguiente.id]" class="boton">{{ siguiente.nombre }} &rarr;</a>
+    </nav>
+  </ng-container>
+
+  <ng-template #noEncontrada>
+    <div class="text-center">
+      <h1>Categoría no encontrada</h1>
+      <p class="mb-3">Revisa el enlace o elige una categoría desde el menú.</p>
+      <a routerLink="/catalogo" class="boton">Ir al catálogo</a>
+    </div>
+  </ng-template>
+</main>

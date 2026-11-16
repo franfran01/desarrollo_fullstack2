@@ -1,0 +1,100 @@
+<main class="container py-4">
+  <section class="cabecera-categoria">
+    <h1>Administración</h1>
+    <p>Gestiona el catálogo, el inventario y los usuarios de la tienda.</p>
+  </section>
+
+  <section class="row row-cols-2 row-cols-lg-4 g-3 mb-4 text-center" aria-label="Resumen">
+    <div class="col"><div class="resumen"><span>{{ tienda.productos.length }}</span>Juegos en catálogo</div></div>
+    <div class="col"><div class="resumen"><span>{{ agotados }}</span>Juegos agotados</div></div>
+    <div class="col"><div class="resumen"><span>{{ sesion.usuarios.length }}</span>Usuarios</div></div>
+    <div class="col"><div class="resumen"><span>{{ totalVendido | peso }}</span><a routerLink="/historial">Total vendido</a></div></div>
+  </section>
+
+  <h2 class="titulo-seccion">Productos e inventario</h2>
+  <div class="row g-4">
+    <div class="col-12 col-lg-4">
+      <form id="form-producto" class="formulario" (ngSubmit)="guardar()">
+        <h3 class="h5">{{ idEditando ? 'Editar: ' + formulario.nombre : 'Agregar juego' }}</h3>
+        <div class="mb-3">
+          <label for="nombre" class="form-label">Nombre</label>
+          <input type="text" class="form-control" id="nombre" name="nombre" [(ngModel)]="formulario.nombre">
+        </div>
+        <div class="mb-3">
+          <label for="categoria" class="form-label">Categoría</label>
+          <select class="form-select" id="categoria" name="categoria" [(ngModel)]="formulario.categoria">
+            <option value="">Elige una categoría</option>
+            <option *ngFor="let c of categorias" [value]="c.id">{{ c.nombre }}</option>
+          </select>
+        </div>
+        <div class="row g-2 mb-3">
+          <div class="col-12 col-sm-4 col-lg-12 col-xl-4">
+            <label for="precio" class="form-label">Precio ($)</label>
+            <input type="number" class="form-control" id="precio" name="precio" min="0" step="10" [(ngModel)]="formulario.precio">
+          </div>
+          <div class="col-6 col-sm-4 col-lg-6 col-xl-4">
+            <label for="descuento" class="form-label">Desc. (%)</label>
+            <input type="number" class="form-control" id="descuento" name="descuento" min="0" max="90" [(ngModel)]="formulario.descuento">
+          </div>
+          <div class="col-6 col-sm-4 col-lg-6 col-xl-4">
+            <label for="stock" class="form-label">Stock</label>
+            <input type="number" class="form-control" id="stock" name="stock" min="0" [(ngModel)]="formulario.stock">
+          </div>
+        </div>
+        <div class="mb-3">
+          <label for="descripcion" class="form-label">Descripción</label>
+          <textarea class="form-control" id="descripcion" name="descripcion" rows="3" [(ngModel)]="formulario.descripcion"></textarea>
+        </div>
+        <div class="d-flex flex-column flex-sm-row gap-2">
+          <button type="button" class="boton boton-inicio" (click)="limpiar()">Limpiar</button>
+          <button type="submit" class="boton flex-fill">{{ idEditando ? 'Guardar cambios' : 'Agregar juego' }}</button>
+        </div>
+        <div class="alert alert-success mt-3 mb-0" role="alert" *ngIf="mensaje">{{ mensaje }}</div>
+      </form>
+    </div>
+    <div class="col-12 col-lg-8">
+      <div class="table-responsive tabla-tienda">
+        <table class="table align-middle mb-0">
+          <thead><tr><th></th><th>Juego</th><th>Categoría</th><th>Precio</th><th>Desc.</th><th>Stock</th><th>Acciones</th></tr></thead>
+          <tbody>
+            <tr *ngFor="let p of tienda.productos">
+              <td><img [src]="p.imagen" alt="" class="miniatura"></td>
+              <td>{{ p.nombre }}</td>
+              <td>{{ nombreCategoria(p.categoria) }}</td>
+              <td>{{ p.precio | peso }}</td>
+              <td>{{ p.descuento }}%</td>
+              <td><span class="badge" [class]="claseStock(p.stock)">{{ p.stock }}</span></td>
+              <td class="text-nowrap">
+                <button type="button" class="btn btn-sm btn-outline-primary me-1" (click)="editar(p)">Editar</button>
+                <button type="button" class="btn btn-sm btn-outline-danger" (click)="eliminar(p)">Eliminar</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <h2 class="titulo-seccion mt-5">Usuarios</h2>
+  <div class="table-responsive tabla-tienda">
+    <table class="table align-middle mb-0">
+      <thead><tr><th>Usuario</th><th>Nombre</th><th>Correo</th><th>Rol</th><th>Acciones</th></tr></thead>
+      <tbody>
+        <tr *ngFor="let u of sesion.usuarios">
+          <td>{{ u.usuario }} <span class="badge text-bg-secondary" *ngIf="esYo(u)">tú</span></td>
+          <td>{{ u.nombre }}</td>
+          <td>{{ u.correo }}</td>
+          <td>
+            <label class="visually-hidden" [for]="'rol-' + u.usuario">Rol de {{ u.usuario }}</label>
+            <!-- ngModel cambia el rol directamente en los datos del usuario -->
+            <select class="form-select form-select-sm" [id]="'rol-' + u.usuario" [(ngModel)]="u.rol" [disabled]="esYo(u)">
+              <option value="cliente">Cliente</option>
+              <option value="admin">Administrador</option>
+            </select>
+          </td>
+          <td><button type="button" class="btn btn-sm btn-outline-danger" [disabled]="esYo(u)" (click)="eliminarUsuario(u)">Eliminar</button></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</main>

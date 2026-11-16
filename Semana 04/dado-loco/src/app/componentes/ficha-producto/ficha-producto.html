@@ -1,0 +1,20 @@
+<article class="ficha h-100">
+  <span class="badge-descuento" *ngIf="producto.descuento > 0">-{{ producto.descuento }}%</span>
+  <a [routerLink]="['/producto', producto.id]">
+    <img [src]="producto.imagen" [alt]="'Imagen del juego ' + producto.nombre">
+  </a>
+  <div class="ficha-cuerpo">
+    <h3><a [routerLink]="['/producto', producto.id]">{{ producto.nombre }}</a></h3>
+    <p class="ficha-desc">{{ producto.descripcion }}</p>
+    <p class="precio">
+      <del *ngIf="producto.descuento > 0">{{ producto.precio | peso }}</del>
+      <strong>{{ tienda.precioFinal(producto) | peso }}</strong>
+    </p>
+    <p class="descuento si" *ngIf="producto.stock === 0">Agotado</p>
+    <p class="descuento si" *ngIf="producto.stock > 0 && producto.stock <= 3">¡Últimas {{ producto.stock }} unidades!</p>
+    <p class="descuento no" *ngIf="producto.stock > 3">Disponible: {{ producto.stock }}</p>
+    <button *ngIf="puedeComprar" type="button" class="boton mt-auto" [disabled]="producto.stock === 0 || avisando" (click)="agregar()">
+      {{ textoBoton }}
+    </button>
+  </div>
+</article>

@@ -1,0 +1,21 @@
+<main class="container py-4">
+  <ng-container *ngIf="pedido; else sinPedido">
+    <div class="alert alert-success text-center" role="alert">
+      <h1 class="h4">¡Compra realizada correctamente! (simulación)</h1>
+      <p class="mb-1">Pedido N° <strong>{{ pedido.numero }}</strong> por <strong>{{ pedido.total | peso }}</strong>, pagado con {{ pedido.pago }}.</p>
+      <p class="mb-0">Lo enviaremos a {{ pedido.direccion }}. No se realizó ningún cobro real.</p>
+    </div>
+    <ul class="list-unstyled text-center mb-4">
+      <li *ngFor="let i of pedido.items">{{ i.cantidad }} × {{ i.nombre }} ({{ i.precio | peso }} c/u)</li>
+    </ul>
+  </ng-container>
+
+  <ng-template #sinPedido>
+    <p class="text-center mb-4">No hay una compra reciente para mostrar.</p>
+  </ng-template>
+
+  <div class="d-flex flex-column flex-sm-row justify-content-center gap-3">
+    <a routerLink="/historial" class="boton">Ver mis compras</a>
+    <a routerLink="/catalogo" class="boton boton-inicio">Seguir comprando</a>
+  </div>
+</main>

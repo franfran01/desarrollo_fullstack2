@@ -12,9 +12,12 @@ Guía para clonar y correr el proyecto en otra computadora. Está escrita para q
 |---|---|
 | `Semana 01/dado-loco/` | Sitio con HTML y CSS |
 | `Semana 02/dado-loco/` | Bootstrap y formulario de registro con validaciones |
-| `Semana 03/dado-loco/` | Tienda con sesión, roles, carrito y administración (la versión más reciente) |
+| `Semana 03/dado-loco/` | Tienda con sesión, roles, carrito y administración |
+| `Semana 04/dado-loco/` | La tienda de la semana 3 pasada a Angular 20 (la versión más reciente) |
 
-No hay backend, base de datos, `package.json` ni dependencias que instalar. Los datos (usuarios, carrito, pedidos) se guardan en el `localStorage` del navegador.
+Las semanas 1 a 3 no tienen backend, base de datos, `package.json` ni dependencias que instalar; sus datos (usuarios, carrito, pedidos) se guardan en el `localStorage` del navegador.
+
+La semana 4 es un proyecto Angular: necesita Node.js y se ejecuta con `npm install` y `ng serve` desde `Semana 04/dado-loco/` (ver su `README.md`). Sus datos son estáticos, en memoria.
 
 ## 2. Requisitos
 

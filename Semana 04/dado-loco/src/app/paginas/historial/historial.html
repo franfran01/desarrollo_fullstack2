@@ -1,0 +1,39 @@
+<main class="container py-4">
+  <section class="cabecera-categoria">
+    <h1>{{ sesion.esAdmin ? 'Ventas' : 'Mis compras' }}</h1>
+    <p>{{ sesion.esAdmin ? 'Todos los pedidos realizados en la tienda.' : 'Los pedidos que has hecho en Dado Loco.' }}</p>
+  </section>
+
+  <ng-container *ngIf="!pedidos.length">
+    <p class="text-center mb-3">Todavía no hay compras registradas.</p>
+    <p class="text-center" *ngIf="!sesion.esAdmin"><a routerLink="/catalogo" class="boton">Ir al catálogo</a></p>
+  </ng-container>
+
+  <div class="table-responsive tabla-tienda" *ngIf="pedidos.length">
+    <table class="table align-middle mb-0">
+      <thead>
+        <tr><th>N°</th><th>Fecha</th><th *ngIf="sesion.esAdmin">Cliente</th><th>Productos</th><th>Pago</th><th>Total</th></tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let p of pedidos">
+          <td>{{ p.numero }}</td>
+          <td>{{ p.fecha | date: 'dd-MM-yyyy HH:mm' }}</td>
+          <td *ngIf="sesion.esAdmin">{{ p.usuario }}</td>
+          <td>
+            <ul class="mb-0 ps-3">
+              <li *ngFor="let i of p.items">{{ i.cantidad }} × {{ i.nombre }}</li>
+            </ul>
+          </td>
+          <td>{{ p.pago }}</td>
+          <td><strong>{{ p.total | peso }}</strong></td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <th [attr.colspan]="sesion.esAdmin ? 5 : 4" class="text-end">Total {{ sesion.esAdmin ? 'vendido' : 'comprado' }}</th>
+          <th>{{ total | peso }}</th>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+</main>

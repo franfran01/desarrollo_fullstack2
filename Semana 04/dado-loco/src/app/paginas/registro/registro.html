@@ -1,0 +1,54 @@
+<main class="container py-4">
+  <section class="cabecera-categoria">
+    <h1>Registro</h1>
+    <p>Crea tu cuenta para ganar recompensas por tus compras en Dado Loco.</p>
+  </section>
+
+  <div class="row justify-content-center">
+    <div class="col-12 col-md-10 col-lg-8">
+      <form class="formulario" (ngSubmit)="enviar()">
+        <div class="row g-3">
+          <div class="col-12">
+            <label for="nombre" class="form-label">Nombre completo</label>
+            <input type="text" class="form-control" id="nombre" name="nombre" autocomplete="name" [(ngModel)]="nombre">
+          </div>
+          <div class="col-12 col-md-6">
+            <label for="usuario" class="form-label">Nombre de usuario</label>
+            <input type="text" class="form-control" id="usuario" name="usuario" autocomplete="username" [(ngModel)]="usuario">
+          </div>
+          <div class="col-12 col-md-6">
+            <label for="correo" class="form-label">Correo electrónico</label>
+            <input type="email" class="form-control" id="correo" name="correo" autocomplete="email" [(ngModel)]="correo">
+          </div>
+          <div class="col-12 col-md-6">
+            <label for="clave" class="form-label">Contraseña</label>
+            <input type="password" class="form-control" id="clave" name="clave" autocomplete="new-password" [(ngModel)]="clave">
+          </div>
+          <div class="col-12 col-md-6">
+            <label for="repetir" class="form-label">Repetir contraseña</label>
+            <input type="password" class="form-control" id="repetir" name="repetir" autocomplete="new-password" [(ngModel)]="repetir">
+          </div>
+          <div class="col-12 col-md-6">
+            <label for="fecha" class="form-label">Fecha de nacimiento</label>
+            <input type="date" class="form-control" id="fecha" name="fecha" autocomplete="bday" [(ngModel)]="fecha">
+          </div>
+          <div class="col-12 col-md-6">
+            <label for="direccion" class="form-label">Dirección de despacho (opcional)</label>
+            <input type="text" class="form-control" id="direccion" name="direccion" autocomplete="street-address" [(ngModel)]="direccion">
+          </div>
+        </div>
+
+        <!-- Vista previa con ngIf: aparece mientras se escribe, gracias a ngModel -->
+        <p class="form-text mt-3 mb-0" *ngIf="usuario">Tu cuenta será <strong>{{ usuario }}</strong>{{ correo ? ' (' + correo + ')' : '' }}.</p>
+
+        <div class="d-flex flex-column flex-sm-row justify-content-end gap-3 mt-4">
+          <button type="button" class="boton boton-inicio" (click)="limpiar()">Limpiar</button>
+          <button type="submit" class="boton">Enviar</button>
+        </div>
+      </form>
+      <div class="alert mt-3" [class]="'alert-' + tipoMensaje" role="alert" *ngIf="mensaje">
+        {{ mensaje }} <a *ngIf="tipoMensaje === 'success'" routerLink="/login" class="alert-link">Ir a iniciar sesión</a>
+      </div>
+    </div>
+  </div>
+</main>

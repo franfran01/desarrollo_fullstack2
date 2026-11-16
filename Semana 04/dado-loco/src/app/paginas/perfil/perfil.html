@@ -1,0 +1,52 @@
+<main class="container py-4">
+  <section class="cabecera-categoria">
+    <h1>Mi perfil</h1>
+    <p>Revisa y actualiza tus datos. Tipo de cuenta:
+      <span class="badge text-bg-dark">{{ sesion.esAdmin ? 'Administrador' : 'Cliente' }}</span>
+    </p>
+  </section>
+
+  <div class="row justify-content-center">
+    <div class="col-12 col-md-10 col-lg-8">
+      <form class="formulario" (ngSubmit)="guardar()">
+        <div class="row g-3">
+          <div class="col-12 col-md-6">
+            <label for="usuario" class="form-label">Nombre de usuario</label>
+            <input type="text" class="form-control" id="usuario" name="usuario" readonly [ngModel]="usuario" aria-describedby="ayuda-usuario">
+            <div class="form-text" id="ayuda-usuario">El nombre de usuario no se puede cambiar.</div>
+          </div>
+          <div class="col-12 col-md-6">
+            <label for="nombre" class="form-label">Nombre completo</label>
+            <input type="text" class="form-control" id="nombre" name="nombre" autocomplete="name" [(ngModel)]="nombre">
+          </div>
+          <div class="col-12 col-md-6">
+            <label for="correo" class="form-label">Correo electrónico</label>
+            <input type="email" class="form-control" id="correo" name="correo" autocomplete="email" [(ngModel)]="correo">
+          </div>
+          <div class="col-12 col-md-6">
+            <label for="direccion" class="form-label">Dirección de despacho (opcional)</label>
+            <input type="text" class="form-control" id="direccion" name="direccion" autocomplete="street-address" [(ngModel)]="direccion">
+          </div>
+          <div class="col-12">
+            <h2 class="h5 mt-2 mb-0">Cambiar contraseña</h2>
+            <p class="form-text mb-0">Déjalo vacío si quieres mantener tu contraseña actual.</p>
+          </div>
+          <div class="col-12 col-md-6">
+            <label for="clave" class="form-label">Contraseña nueva</label>
+            <input type="password" class="form-control" id="clave" name="clave" autocomplete="new-password" [(ngModel)]="clave">
+          </div>
+          <div class="col-12 col-md-6">
+            <label for="repetir" class="form-label">Repetir contraseña nueva</label>
+            <input type="password" class="form-control" id="repetir" name="repetir" autocomplete="new-password" [(ngModel)]="repetir">
+          </div>
+        </div>
+
+        <div class="d-flex flex-column flex-sm-row justify-content-end gap-3 mt-4">
+          <button type="button" class="boton boton-inicio" (click)="deshacer()">Deshacer cambios</button>
+          <button type="submit" class="boton">Guardar cambios</button>
+        </div>
+      </form>
+      <div class="alert alert-success mt-3" role="alert" *ngIf="mensaje">{{ mensaje }}</div>
+    </div>
+  </div>
+</main>

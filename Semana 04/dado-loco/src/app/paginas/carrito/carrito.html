@@ -1,0 +1,66 @@
+<main class="container py-4">
+  <section class="cabecera-categoria">
+    <h1>Carrito de compras</h1>
+    <p>Revisa tus juegos antes de confirmar la compra.</p>
+  </section>
+
+  <div class="text-center" *ngIf="!lineas.length">
+    <p class="mb-3">Tu carrito está vacío.</p>
+    <a routerLink="/catalogo" class="boton">Ver el catálogo</a>
+  </div>
+
+  <ng-container *ngIf="lineas.length">
+    <div class="table-responsive tabla-tienda">
+      <table class="table align-middle mb-0">
+        <thead><tr><th></th><th>Juego</th><th>Precio</th><th>Cantidad</th><th>Subtotal</th><th></th></tr></thead>
+        <tbody>
+          <tr *ngFor="let l of lineas; trackBy: porId">
+            <td><img [src]="l.producto.imagen" alt="" class="miniatura"></td>
+            <td><a [routerLink]="['/producto', l.producto.id]">{{ l.producto.nombre }}</a></td>
+            <td>{{ tienda.precioFinal(l.producto) | peso }}</td>
+            <td>
+              <label class="visually-hidden" [for]="'cant-' + l.producto.id">Cantidad de {{ l.producto.nombre }}</label>
+              <input type="number" class="form-control form-control-sm" [id]="'cant-' + l.producto.id" min="1" [max]="l.producto.stock"
+                     [(ngModel)]="l.cantidad" (change)="cambiarCantidad(l)" style="width: 5rem">
+            </td>
+            <td>{{ tienda.precioFinal(l.producto) * l.cantidad | peso }}</td>
+            <td><button type="button" class="btn btn-sm btn-outline-danger" (click)="quitar(l)">Quitar</button></td>
+          </tr>
+        </tbody>
+        <tfoot><tr><th colspan="4" class="text-end">Total</th><th colspan="2">{{ total | peso }}</th></tr></tfoot>
+      </table>
+    </div>
+
+    <section class="row justify-content-end mt-4">
+      <div class="col-12 col-md-8 col-lg-6">
+        <!-- Solo los clientes con sesión pueden confirmar la compra -->
+        <div class="alert alert-info" *ngIf="!sesion.usuarioActual">
+          Para finalizar la compra debes
+          <a routerLink="/login" [queryParams]="{ volver: '/carrito' }" class="text-decoration-underline">iniciar sesión</a> o
+          <a routerLink="/registro" class="text-decoration-underline">registrarte</a>.
+        </div>
+
+        <div class="alert alert-info" *ngIf="sesion.esAdmin">
+          Las cuentas de administrador no pueden comprar. Ingresa con una cuenta de cliente.
+        </div>
+
+        <form class="formulario" *ngIf="sesion.usuarioActual && !sesion.esAdmin" (ngSubmit)="confirmar()">
+          <h2 class="h5">Datos de despacho y pago</h2>
+          <div class="mb-3">
+            <label for="direccion" class="form-label">Dirección de despacho</label>
+            <input type="text" class="form-control" id="direccion" name="direccion" autocomplete="street-address" [(ngModel)]="direccion">
+          </div>
+          <div class="mb-3">
+            <label for="pago" class="form-label">Medio de pago (simulado)</label>
+            <select class="form-select" id="pago" name="pago" [(ngModel)]="pago">
+              <option value="">Elige una opción</option>
+              <option *ngFor="let m of mediosPago" [value]="m">{{ m }}</option>
+            </select>
+          </div>
+          <p class="form-text">Es una simulación: no se realiza ningún cobro.</p>
+          <button type="submit" class="boton w-100">Confirmar compra</button>
+        </form>
+      </div>
+    </section>
+  </ng-container>
+</main>

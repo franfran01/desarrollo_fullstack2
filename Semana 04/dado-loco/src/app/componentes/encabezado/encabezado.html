@@ -1,0 +1,47 @@
+<header class="encabezado navbar navbar-expand-lg sticky-top" data-bs-theme="dark">
+  <a routerLink="/" class="logo">
+    <span class="logo-dado">🎲</span>
+    <span class="logo-texto">Dado Loco</span>
+  </a>
+  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu-principal" aria-controls="menu-principal" aria-expanded="false" aria-label="Abrir menú">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <nav class="collapse navbar-collapse" id="menu-principal">
+    <ul class="navbar-nav ms-auto menu">
+      <li class="nav-item"><a routerLink="/" routerLinkActive="activo" [routerLinkActiveOptions]="{ exact: true }" class="nav-link">Inicio</a></li>
+      <li class="nav-item"><a routerLink="/catalogo" routerLinkActive="activo" class="nav-link">Catálogo</a></li>
+      <li class="nav-item dropdown" routerLinkActive="activo">
+        <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">Categorías</a>
+        <ul class="dropdown-menu">
+          <!-- Una sola página de categoría: el nombre viaja en la ruta -->
+          <li *ngFor="let c of categorias">
+            <a [routerLink]="['/categoria', c.id]" routerLinkActive="active" class="dropdown-item">{{ c.nombre }}</a>
+          </li>
+        </ul>
+      </li>
+
+      <!-- Visitantes y clientes ven el carrito -->
+      <li class="nav-item" *ngIf="sesion.puedeComprar">
+        <a routerLink="/carrito" routerLinkActive="activo" class="nav-link">
+          Carrito <span class="badge rounded-pill text-bg-warning">{{ tienda.unidadesEnCarrito() }}</span>
+        </a>
+      </li>
+
+      <!-- Visitante -->
+      <ng-container *ngIf="!sesion.usuarioActual">
+        <li class="nav-item"><a routerLink="/login" routerLinkActive="activo" class="nav-link">Ingresar</a></li>
+        <li class="nav-item"><a routerLink="/registro" routerLinkActive="activo" class="nav-link">Registro</a></li>
+      </ng-container>
+
+      <!-- Con sesión -->
+      <ng-container *ngIf="sesion.usuarioActual">
+        <li class="nav-item" *ngIf="sesion.esAdmin"><a routerLink="/admin" routerLinkActive="activo" class="nav-link">Administración</a></li>
+        <li class="nav-item">
+          <a routerLink="/historial" routerLinkActive="activo" class="nav-link">{{ sesion.esAdmin ? 'Ventas' : 'Mis compras' }}</a>
+        </li>
+        <li class="nav-item"><a routerLink="/perfil" routerLinkActive="activo" class="nav-link">Mi perfil</a></li>
+        <li class="nav-item"><button type="button" class="nav-link" (click)="cerrarSesion()">Cerrar sesión</button></li>
+      </ng-container>
+    </ul>
+  </nav>
+</header>

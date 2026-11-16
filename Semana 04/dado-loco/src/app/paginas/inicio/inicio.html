@@ -1,0 +1,24 @@
+<main>
+  <section class="hero">
+    <h1>Dado Loco</h1>
+    <p>Los mejores juegos de mesa para compartir con amigos y familia.</p>
+  </section>
+
+  <section class="container py-4">
+    <h2 class="titulo-seccion">Nuestras categorías</h2>
+    <div class="grilla row row-cols-1 row-cols-sm-2 row-cols-lg-4 g-4">
+      <!-- Antes eran 4 bloques escritos a mano; ahora se repite uno por cada categoría -->
+      <div class="col" *ngFor="let c of categorias">
+        <article class="categoria h-100">
+          <a [routerLink]="['/categoria', c.id]">
+            <img [src]="c.imagen" [alt]="'Imagen de la categoría ' + c.nombre">
+            <h3>{{ c.nombre }}</h3>
+            <p>{{ c.descripcion }}</p>
+            <span class="boton">Ver juegos</span>
+          </a>
+        </article>
+      </div>
+    </div>
+    <p class="text-center mt-4"><a routerLink="/catalogo" class="boton">Ver todo el catálogo</a></p>
+  </section>
+</main>
