@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { NgIf } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Producto as DatosProducto } from '../../datos/datos';
@@ -12,7 +12,7 @@ import { TiendaService } from '../../servicios/tienda.service';
    y con él se buscan los datos que se muestran. */
 @Component({
   selector: 'app-producto',
-  imports: [NgIf, FormsModule, RouterLink, PesoPipe],
+  imports: [NgIf, ReactiveFormsModule, RouterLink, PesoPipe],
   templateUrl: './producto.html',
 })
 export class Producto {
@@ -22,14 +22,19 @@ export class Producto {
   private titulo = inject(Title);
 
   producto?: DatosProducto;
-  cantidad = 1;
+  formulario = new FormGroup({ cantidad: new FormControl(1, { nonNullable: true }) });
+  get cantidad() {
+    return this.formulario.controls.cantidad;
+  }
   mensaje = '';
   tipoMensaje = 'success';
 
   constructor() {
     this.ruta.paramMap.subscribe((parametros) => {
       this.producto = this.tienda.buscarProducto(parametros.get('id') ?? '');
-      this.cantidad = 1;
+      // El máximo depende del stock del juego que se está viendo
+      this.cantidad.setValidators([Validators.required, Validators.min(1), Validators.max(this.producto?.stock ?? 1)]);
+      this.cantidad.reset(1);
       this.mensaje = '';
       this.titulo.setTitle(`${this.producto?.nombre ?? 'Juego no encontrado'} | Dado Loco`);
     });
@@ -41,7 +46,12 @@ export class Producto {
 
   agregar(): void {
     if (!this.producto) return;
-    const agregados = this.tienda.agregarAlCarrito(this.producto.id, this.cantidad);
+    if (this.cantidad.invalid) {
+      this.mensaje = `Elige una cantidad entre 1 y ${this.producto.stock}.`;
+      this.tipoMensaje = 'danger';
+      return;
+    }
+    const agregados = this.tienda.agregarAlCarrito(this.producto.id, this.cantidad.value);
     if (agregados) {
       this.mensaje = `Agregaste ${agregados} unidad(es) de ${this.producto.nombre} al carrito.`;
       this.tipoMensaje = 'success';

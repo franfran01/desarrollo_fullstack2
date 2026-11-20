@@ -8,36 +8,44 @@
 
   <div class="row justify-content-center">
     <div class="col-12 col-md-10 col-lg-8">
-      <form class="formulario" (ngSubmit)="guardar()">
+      <form class="formulario" [formGroup]="formulario" (ngSubmit)="guardar()" novalidate>
         <div class="row g-3">
           <div class="col-12 col-md-6">
             <label for="usuario" class="form-label">Nombre de usuario</label>
-            <input type="text" class="form-control" id="usuario" name="usuario" readonly [ngModel]="usuario" aria-describedby="ayuda-usuario">
+            <input type="text" class="form-control" id="usuario" formControlName="usuario" aria-describedby="ayuda-usuario">
             <div class="form-text" id="ayuda-usuario">El nombre de usuario no se puede cambiar.</div>
           </div>
           <div class="col-12 col-md-6">
             <label for="nombre" class="form-label">Nombre completo</label>
-            <input type="text" class="form-control" id="nombre" name="nombre" autocomplete="name" [(ngModel)]="nombre">
+            <input type="text" class="form-control" id="nombre" formControlName="nombre" autocomplete="name"
+                   [class.is-invalid]="error('nombre')" aria-describedby="error-nombre">
+            <div class="invalid-feedback" id="error-nombre">{{ error('nombre') }}</div>
           </div>
           <div class="col-12 col-md-6">
             <label for="correo" class="form-label">Correo electrónico</label>
-            <input type="email" class="form-control" id="correo" name="correo" autocomplete="email" [(ngModel)]="correo">
+            <input type="email" class="form-control" id="correo" formControlName="correo" autocomplete="email"
+                   [class.is-invalid]="error('correo')" aria-describedby="error-correo">
+            <div class="invalid-feedback" id="error-correo">{{ error('correo') }}</div>
           </div>
           <div class="col-12 col-md-6">
             <label for="direccion" class="form-label">Dirección de despacho (opcional)</label>
-            <input type="text" class="form-control" id="direccion" name="direccion" autocomplete="street-address" [(ngModel)]="direccion">
+            <input type="text" class="form-control" id="direccion" formControlName="direccion" autocomplete="street-address">
           </div>
           <div class="col-12">
             <h2 class="h5 mt-2 mb-0">Cambiar contraseña</h2>
-            <p class="form-text mb-0">Déjalo vacío si quieres mantener tu contraseña actual.</p>
+            <p class="form-text mb-0">Déjalo vacío si quieres mantener tu contraseña actual. Si la cambias: entre 6 y 18 caracteres, con al menos un número y una mayúscula.</p>
           </div>
           <div class="col-12 col-md-6">
             <label for="clave" class="form-label">Contraseña nueva</label>
-            <input type="password" class="form-control" id="clave" name="clave" autocomplete="new-password" [(ngModel)]="clave">
+            <input type="password" class="form-control" id="clave" formControlName="clave" autocomplete="new-password"
+                   [class.is-invalid]="error('clave')" aria-describedby="error-clave">
+            <div class="invalid-feedback" id="error-clave">{{ error('clave') }}</div>
           </div>
           <div class="col-12 col-md-6">
             <label for="repetir" class="form-label">Repetir contraseña nueva</label>
-            <input type="password" class="form-control" id="repetir" name="repetir" autocomplete="new-password" [(ngModel)]="repetir">
+            <input type="password" class="form-control" id="repetir" formControlName="repetir" autocomplete="new-password"
+                   [class.is-invalid]="error('repetir')" aria-describedby="error-repetir">
+            <div class="invalid-feedback" id="error-repetir">{{ error('repetir') }}</div>
           </div>
         </div>
 

@@ -4,14 +4,14 @@
     <p>Todos nuestros juegos de mesa en un solo lugar.</p>
   </section>
 
-  <form class="row g-3 mb-4 justify-content-center" role="search" (submit)="$event.preventDefault()">
+  <form class="row g-3 mb-4 justify-content-center" role="search" [formGroup]="filtros">
     <div class="col-12 col-sm-6 col-lg-4">
       <label for="filtro-texto" class="form-label">Buscar por nombre</label>
-      <input type="search" class="form-control" id="filtro-texto" name="texto" placeholder="Ej: Catan" [(ngModel)]="texto">
+      <input type="search" class="form-control" id="filtro-texto" formControlName="texto" placeholder="Ej: Catan">
     </div>
     <div class="col-12 col-sm-6 col-lg-3">
       <label for="filtro-categoria" class="form-label">Categoría</label>
-      <select class="form-select" id="filtro-categoria" name="categoria" [(ngModel)]="categoria">
+      <select class="form-select" id="filtro-categoria" formControlName="categoria">
         <option value="">Todas</option>
         <option *ngFor="let c of categorias" [value]="c.id">{{ c.nombre }}</option>
       </select>

@@ -16,10 +16,10 @@
         {{ producto.stock === 0 ? 'Agotado' : 'Stock disponible: ' + producto.stock }}
       </p>
 
-      <form class="d-flex flex-wrap align-items-start gap-2 mt-2" *ngIf="sesion.puedeComprar && producto.stock > 0" (ngSubmit)="agregar()">
+      <form class="d-flex flex-wrap align-items-start gap-2 mt-2" *ngIf="sesion.puedeComprar && producto.stock > 0" [formGroup]="formulario" (ngSubmit)="agregar()" novalidate>
         <div>
           <label for="cantidad" class="form-label visually-hidden">Cantidad</label>
-          <input type="number" class="form-control" id="cantidad" name="cantidad" min="1" [max]="producto.stock" [(ngModel)]="cantidad" style="width: 7rem">
+          <input type="number" class="form-control" id="cantidad" formControlName="cantidad" min="1" [max]="producto.stock" [class.is-invalid]="cantidad.invalid" style="width: 7rem">
         </div>
         <button type="submit" class="boton">Agregar al carrito</button>
       </form>

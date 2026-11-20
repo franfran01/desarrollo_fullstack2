@@ -1,18 +1,19 @@
 import { Component, inject } from '@angular/core';
 import { NgFor, NgIf } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { CATEGORIAS, Producto, Usuario } from '../../datos/datos';
 import { PesoPipe } from '../../servicios/peso.pipe';
 import { SesionService } from '../../servicios/sesion.service';
 import { TiendaService } from '../../servicios/tienda.service';
+import { mensajeError, obligatorio } from '../../servicios/validadores';
 
 const FORMULARIO_VACIO = { nombre: '', categoria: '', precio: 0, descuento: 0, stock: 0, descripcion: '' };
 
 // Mantenedor de productos e inventario, y de usuarios. La ruta /admin tiene adminGuard.
 @Component({
   selector: 'app-admin',
-  imports: [NgFor, NgIf, FormsModule, RouterLink, PesoPipe],
+  imports: [NgFor, NgIf, ReactiveFormsModule, RouterLink, PesoPipe],
   templateUrl: './admin.html',
 })
 export class Admin {
@@ -20,10 +21,22 @@ export class Admin {
   sesion = inject(SesionService);
   categorias = CATEGORIAS;
 
-  // Formulario de producto enlazado con [(ngModel)]; idEditando vacío = agregar
+  // Formulario reactivo de producto; idEditando vacío = agregar
   idEditando = '';
-  formulario = { ...FORMULARIO_VACIO };
+  formulario = inject(FormBuilder).nonNullable.group({
+    nombre: ['', obligatorio],
+    categoria: ['', obligatorio],
+    precio: [0, [Validators.required, Validators.min(0)]],
+    descuento: [0, [Validators.required, Validators.min(0), Validators.max(90)]],
+    stock: [0, [Validators.required, Validators.min(0)]],
+    descripcion: ['', obligatorio],
+  });
   mensaje = '';
+
+  error(campo: string): string {
+    const control = this.formulario.get(campo);
+    return control?.touched ? mensajeError(control) : '';
+  }
 
   /* ---------- Resumen ---------- */
 
@@ -48,24 +61,30 @@ export class Admin {
   editar(p: Producto): void {
     this.idEditando = p.id;
     const { id, imagen, ...datos } = p;
-    this.formulario = { ...datos };
+    this.formulario.reset(datos);
     this.mensaje = '';
     document.getElementById('form-producto')?.scrollIntoView({ behavior: 'smooth' });
   }
 
   limpiar(): void {
     this.idEditando = '';
-    this.formulario = { ...FORMULARIO_VACIO };
+    this.formulario.reset(FORMULARIO_VACIO);
   }
 
   guardar(): void {
+    if (this.formulario.invalid) {
+      this.formulario.markAllAsTouched();
+      this.mensaje = '';
+      return;
+    }
+    const valores = this.formulario.getRawValue();
     const datos = {
-      ...this.formulario,
-      nombre: this.formulario.nombre.trim(),
-      descripcion: this.formulario.descripcion.trim(),
-      precio: Number(this.formulario.precio),
-      descuento: Number(this.formulario.descuento),
-      stock: Number(this.formulario.stock),
+      ...valores,
+      nombre: valores.nombre.trim(),
+      descripcion: valores.descripcion.trim(),
+      precio: Number(valores.precio),
+      descuento: Number(valores.descuento),
+      stock: Number(valores.stock),
     };
     const editando = Boolean(this.idEditando);
     this.tienda.guardarProducto(datos, this.idEditando || undefined);
@@ -84,6 +103,11 @@ export class Admin {
   // No se puede quitar el rol ni borrar la cuenta propia, para no quedar sin administrador
   esYo(u: Usuario): boolean {
     return u.usuario === this.sesion.usuarioActual?.usuario;
+  }
+
+  // Evento (change) del select: cambia el rol directamente en los datos del usuario
+  cambiarRol(u: Usuario, evento: Event): void {
+    u.rol = (evento.target as HTMLSelectElement).value as Usuario['rol'];
   }
 
   eliminarUsuario(u: Usuario): void {

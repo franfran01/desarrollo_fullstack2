@@ -1,12 +1,13 @@
 import { Component, inject } from '@angular/core';
 import { NgIf } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { SesionService } from '../../servicios/sesion.service';
+import { mensajeError, obligatorio } from '../../servicios/validadores';
 
 @Component({
   selector: 'app-login',
-  imports: [NgIf, FormsModule, RouterLink],
+  imports: [NgIf, ReactiveFormsModule, RouterLink],
   templateUrl: './login.html',
 })
 export class Login {
@@ -14,12 +15,26 @@ export class Login {
   private router = inject(Router);
   private ruta = inject(ActivatedRoute);
 
-  usuario = '';
-  clave = '';
+  private fb = inject(FormBuilder);
+
+  formulario = this.fb.nonNullable.group({
+    usuario: ['', obligatorio],
+    clave: ['', obligatorio],
+  });
   error = '';
 
+  errorCampo(campo: string): string {
+    const control = this.formulario.get(campo);
+    return control?.touched ? mensajeError(control) : '';
+  }
+
   ingresar(): void {
-    const usuario = this.sesion.iniciarSesion(this.usuario, this.clave);
+    if (this.formulario.invalid) {
+      this.formulario.markAllAsTouched();
+      return;
+    }
+    const { usuario: texto, clave } = this.formulario.getRawValue();
+    const usuario = this.sesion.iniciarSesion(texto, clave);
     // Mismo mensaje para usuario o contraseña: no revela qué cuentas existen
     if (!usuario) {
       this.error = 'Usuario o contraseña incorrectos.';

@@ -1,15 +1,16 @@
 import { Component, inject } from '@angular/core';
 import { NgFor, NgIf } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { NavigationExtras, Router, RouterLink } from '@angular/router';
 import { MEDIOS_PAGO } from '../../datos/datos';
 import { PesoPipe } from '../../servicios/peso.pipe';
 import { SesionService } from '../../servicios/sesion.service';
 import { LineaCarrito, TiendaService } from '../../servicios/tienda.service';
+import { mensajeError, obligatorio } from '../../servicios/validadores';
 
 @Component({
   selector: 'app-carrito',
-  imports: [NgFor, NgIf, FormsModule, RouterLink, PesoPipe],
+  imports: [NgFor, NgIf, ReactiveFormsModule, RouterLink, PesoPipe],
   templateUrl: './carrito.html',
 })
 export class Carrito {
@@ -21,9 +22,16 @@ export class Carrito {
   lineas: LineaCarrito[] = [];
   total = 0;
 
-  // Datos de despacho enlazados con [(ngModel)]
-  direccion = this.sesion.usuarioActual?.direccion ?? '';
-  pago = '';
+  // Formulario reactivo de despacho y pago; la dirección parte con la del perfil
+  formulario = inject(FormBuilder).nonNullable.group({
+    direccion: [this.sesion.usuarioActual?.direccion ?? '', obligatorio],
+    pago: ['', obligatorio],
+  });
+
+  error(campo: string): string {
+    const control = this.formulario.get(campo);
+    return control?.touched ? mensajeError(control) : '';
+  }
 
   constructor() {
     this.refrescar();
@@ -39,8 +47,10 @@ export class Carrito {
     return linea.producto.id;
   }
 
-  cambiarCantidad(linea: LineaCarrito): void {
-    this.tienda.cambiarCantidad(linea.producto.id, linea.cantidad);
+  // Evento (change) del input de cantidad
+  cambiarCantidad(linea: LineaCarrito, evento: Event): void {
+    const input = evento.target as HTMLInputElement;
+    this.tienda.cambiarCantidad(linea.producto.id, Number(input.value));
     this.refrescar();
   }
 
@@ -52,7 +62,12 @@ export class Carrito {
   confirmar(): void {
     const usuario = this.sesion.usuarioActual;
     if (!usuario) return;
-    const pedido = this.tienda.confirmarCompra(usuario, this.direccion.trim(), this.pago);
+    if (this.formulario.invalid) {
+      this.formulario.markAllAsTouched();
+      return;
+    }
+    const { direccion, pago } = this.formulario.getRawValue();
+    const pedido = this.tienda.confirmarCompra(usuario, direccion.trim(), pago);
     if (!pedido) return this.refrescar();
 
     // El pedido viaja a la página de confirmación con NavigationExtras (state)

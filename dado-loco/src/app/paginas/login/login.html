@@ -6,14 +6,18 @@
 
   <div class="row justify-content-center">
     <div class="col-12 col-sm-10 col-md-7 col-lg-5">
-      <form class="formulario" (ngSubmit)="ingresar()">
+      <form class="formulario" [formGroup]="formulario" (ngSubmit)="ingresar()" novalidate>
         <div class="mb-3">
           <label for="usuario" class="form-label">Usuario o correo</label>
-          <input type="text" class="form-control" id="usuario" name="usuario" autocomplete="username" [(ngModel)]="usuario">
+          <input type="text" class="form-control" id="usuario" formControlName="usuario" autocomplete="username"
+                 [class.is-invalid]="errorCampo('usuario')" aria-describedby="error-usuario">
+          <div class="invalid-feedback" id="error-usuario">{{ errorCampo('usuario') }}</div>
         </div>
         <div class="mb-3">
           <label for="clave" class="form-label">Contraseña</label>
-          <input type="password" class="form-control" id="clave" name="clave" autocomplete="current-password" [(ngModel)]="clave">
+          <input type="password" class="form-control" id="clave" formControlName="clave" autocomplete="current-password"
+                 [class.is-invalid]="errorCampo('clave')" aria-describedby="error-clave">
+          <div class="invalid-feedback" id="error-clave">{{ errorCampo('clave') }}</div>
         </div>
         <button type="submit" class="boton w-100">Ingresar</button>
         <div class="d-flex flex-column flex-sm-row justify-content-between gap-2 mt-3 small">

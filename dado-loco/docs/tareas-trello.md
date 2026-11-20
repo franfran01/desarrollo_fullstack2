@@ -1,4 +1,4 @@
-# Tablero Trello — Dado Loco (semana 4)
+# Tablero Trello — Dado Loco (semanas 4 y 5)
 
 Agrega estas tareas al tablero de las semanas anteriores, con las mismas 4 listas:
 
@@ -29,3 +29,18 @@ Mueve cada tarjeta a la lista que corresponda según tu avance real.
 | 14 | Pruebas | `ng serve`, recorrer todas las páginas en celular, tablet y PC, y `ng test` |
 | 15 | README del proyecto | Cómo ejecutarlo, tabla HTML → componente y requisitos cubiertos |
 | 16 | Entrega | ZIP sin `node_modules` + links de Git y Trello en el AVA |
+
+## Tareas de la semana 5
+
+| # | Tarea | Descripción |
+|---|---|---|
+| 17 | Análisis del requerimiento | Leer guía, instrucciones y pauta de la semana 5 |
+| 18 | Ordenar el repositorio | Mover el proyecto a `dado-loco/` en la raíz para trabajarlo todas las semanas |
+| 19 | Validadores | `validadores.ts`: obligatorio, correo, contraseña segura, edad mínima y contraseñas iguales |
+| 20 | Registro reactivo | `FormBuilder` con todas las validaciones, mensajes de error y botones Enviar y Limpiar |
+| 21 | Demás formularios reactivos | Login, recuperar, perfil, carrito, producto, catálogo y administración sin `ngModel` |
+| 22 | Eventos | `(ngSubmit)`, `(click)` y `(change)` en formularios, carrito y administración |
+| 23 | Pruebas unitarias | `registro.spec.ts` y `validadores.spec.ts` con Jasmine y Karma (`ng test`) |
+| 24 | Pruebas manuales | `ng serve` y revisar cada formulario con datos válidos e inválidos |
+| 25 | README | Requisitos de la semana 5 y cómo correr las pruebas |
+| 26 | Entrega | ZIP sin `node_modules` + links de Git y Trello en el AVA |

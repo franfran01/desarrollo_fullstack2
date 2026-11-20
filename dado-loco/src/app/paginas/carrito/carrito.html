@@ -21,7 +21,7 @@
             <td>
               <label class="visually-hidden" [for]="'cant-' + l.producto.id">Cantidad de {{ l.producto.nombre }}</label>
               <input type="number" class="form-control form-control-sm" [id]="'cant-' + l.producto.id" min="1" [max]="l.producto.stock"
-                     [(ngModel)]="l.cantidad" (change)="cambiarCantidad(l)" style="width: 5rem">
+                     [value]="l.cantidad" (change)="cambiarCantidad(l, $event)" style="width: 5rem">
             </td>
             <td>{{ tienda.precioFinal(l.producto) * l.cantidad | peso }}</td>
             <td><button type="button" class="btn btn-sm btn-outline-danger" (click)="quitar(l)">Quitar</button></td>
@@ -44,18 +44,22 @@
           Las cuentas de administrador no pueden comprar. Ingresa con una cuenta de cliente.
         </div>
 
-        <form class="formulario" *ngIf="sesion.usuarioActual && !sesion.esAdmin" (ngSubmit)="confirmar()">
+        <form class="formulario" *ngIf="sesion.usuarioActual && !sesion.esAdmin" [formGroup]="formulario" (ngSubmit)="confirmar()" novalidate>
           <h2 class="h5">Datos de despacho y pago</h2>
           <div class="mb-3">
             <label for="direccion" class="form-label">Dirección de despacho</label>
-            <input type="text" class="form-control" id="direccion" name="direccion" autocomplete="street-address" [(ngModel)]="direccion">
+            <input type="text" class="form-control" id="direccion" formControlName="direccion" autocomplete="street-address"
+                   [class.is-invalid]="error('direccion')" aria-describedby="error-direccion">
+            <div class="invalid-feedback" id="error-direccion">{{ error('direccion') }}</div>
           </div>
           <div class="mb-3">
             <label for="pago" class="form-label">Medio de pago (simulado)</label>
-            <select class="form-select" id="pago" name="pago" [(ngModel)]="pago">
+            <select class="form-select" id="pago" formControlName="pago"
+                    [class.is-invalid]="error('pago')" aria-describedby="error-pago">
               <option value="">Elige una opción</option>
               <option *ngFor="let m of mediosPago" [value]="m">{{ m }}</option>
             </select>
+            <div class="invalid-feedback" id="error-pago">{{ error('pago') }}</div>
           </div>
           <p class="form-text">Es una simulación: no se realiza ningún cobro.</p>
           <button type="submit" class="boton w-100">Confirmar compra</button>
