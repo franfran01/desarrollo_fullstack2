@@ -1,47 +1,71 @@
-<header class="encabezado navbar navbar-expand-lg sticky-top" data-bs-theme="dark">
-  <a routerLink="/" class="logo">
-    <span class="logo-dado">🎲</span>
-    <span class="logo-texto">Dado Loco</span>
-  </a>
-  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu-principal" aria-controls="menu-principal" aria-expanded="false" aria-label="Abrir menú">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <nav class="collapse navbar-collapse" id="menu-principal">
-    <ul class="navbar-nav ms-auto menu">
-      <li class="nav-item"><a routerLink="/" routerLinkActive="activo" [routerLinkActiveOptions]="{ exact: true }" class="nav-link">Inicio</a></li>
-      <li class="nav-item"><a routerLink="/catalogo" routerLinkActive="activo" class="nav-link">Catálogo</a></li>
-      <li class="nav-item dropdown" routerLinkActive="activo">
-        <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">Categorías</a>
-        <ul class="dropdown-menu">
-          <!-- Una sola página de categoría: el nombre viaja en la ruta -->
-          <li *ngFor="let c of categorias">
-            <a [routerLink]="['/categoria', c.id]" routerLinkActive="active" class="dropdown-item">{{ c.nombre }}</a>
+<header class="encabezado navbar navbar-expand-lg sticky-top">
+  <div class="container-xl">
+    <a routerLink="/" class="logo" aria-label="Dado Loco, ir al inicio">
+      <!-- Dado dibujado en SVG: hereda el color con currentColor -->
+      <svg class="logo-dado" viewBox="0 0 32 32" aria-hidden="true">
+        <rect x="3" y="3" width="26" height="26" rx="6" fill="none" stroke="currentColor" stroke-width="2.5" />
+        <circle cx="10.5" cy="10.5" r="2.3" fill="currentColor" />
+        <circle cx="16" cy="16" r="2.3" fill="currentColor" />
+        <circle cx="21.5" cy="21.5" r="2.3" fill="currentColor" />
+      </svg>
+      <span class="logo-texto">Dado Loco</span>
+    </a>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu-principal" aria-controls="menu-principal" aria-expanded="false" aria-label="Abrir menú">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="menu-principal">
+      <nav class="mx-lg-auto" aria-label="Principal">
+        <ul class="navbar-nav menu">
+          <li class="nav-item"><a routerLink="/" routerLinkActive="activo" [routerLinkActiveOptions]="{ exact: true }" class="nav-link">Inicio</a></li>
+          <li class="nav-item"><a routerLink="/catalogo" routerLinkActive="activo" class="nav-link">Tienda</a></li>
+          <li class="nav-item dropdown" routerLinkActive="activo">
+            <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">Categorías</a>
+            <ul class="dropdown-menu">
+              <!-- Una sola página de categoría: el nombre viaja en la ruta -->
+              <li *ngFor="let c of categorias">
+                <a [routerLink]="['/categoria', c.id]" routerLinkActive="active" class="dropdown-item">{{ c.nombre }}</a>
+              </li>
+            </ul>
           </li>
+          <li class="nav-item"><a routerLink="/" fragment="tienda" class="nav-link">Visítanos</a></li>
         </ul>
-      </li>
+      </nav>
 
-      <!-- Visitantes y clientes ven el carrito -->
-      <li class="nav-item" *ngIf="sesion.puedeComprar">
-        <a routerLink="/carrito" routerLinkActive="activo" class="nav-link">
-          Carrito <span class="badge rounded-pill text-bg-warning">{{ tienda.unidadesEnCarrito() }}</span>
+      <div class="acciones">
+        <a routerLink="/catalogo" class="icono-boton" aria-label="Buscar juegos">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7" /><path d="m20 20-3.5-3.5" /></svg>
         </a>
-      </li>
 
-      <!-- Visitante -->
-      <ng-container *ngIf="!sesion.usuarioActual">
-        <li class="nav-item"><a routerLink="/login" routerLinkActive="activo" class="nav-link">Ingresar</a></li>
-        <li class="nav-item"><a routerLink="/registro" routerLinkActive="activo" class="nav-link">Registro</a></li>
-      </ng-container>
+        <!-- Visitante: el ícono lleva a iniciar sesión -->
+        <a *ngIf="!sesion.usuarioActual" routerLink="/login" routerLinkActive="activo" class="icono-boton" aria-label="Iniciar sesión">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="8" r="4" /><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7" /></svg>
+        </a>
 
-      <!-- Con sesión -->
-      <ng-container *ngIf="sesion.usuarioActual">
-        <li class="nav-item" *ngIf="sesion.esAdmin"><a routerLink="/admin" routerLinkActive="activo" class="nav-link">Administración</a></li>
-        <li class="nav-item">
-          <a routerLink="/historial" routerLinkActive="activo" class="nav-link">{{ sesion.esAdmin ? 'Ventas' : 'Mis compras' }}</a>
-        </li>
-        <li class="nav-item"><a routerLink="/perfil" routerLinkActive="activo" class="nav-link">Mi perfil</a></li>
-        <li class="nav-item"><button type="button" class="nav-link" (click)="cerrarSesion()">Cerrar sesión</button></li>
-      </ng-container>
-    </ul>
-  </nav>
+        <!-- Con sesión: menú de la cuenta según el rol -->
+        <div class="dropdown" *ngIf="sesion.usuarioActual">
+          <button type="button" class="icono-boton" data-bs-toggle="dropdown" aria-expanded="false" [attr.aria-label]="'Cuenta de ' + sesion.usuarioActual.usuario">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="8" r="4" /><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7" /></svg>
+          </button>
+          <ul class="dropdown-menu dropdown-menu-lg-end">
+            <li><span class="dropdown-item-text small text-body-secondary">Hola, {{ sesion.usuarioActual.usuario }}</span></li>
+            <li *ngIf="sesion.esAdmin"><a routerLink="/admin" class="dropdown-item">Administración</a></li>
+            <li><a routerLink="/historial" class="dropdown-item">{{ sesion.esAdmin ? 'Ventas' : 'Mis compras' }}</a></li>
+            <li><a routerLink="/perfil" class="dropdown-item">Mi perfil</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><button type="button" class="dropdown-item" (click)="cerrarSesion()">Cerrar sesión</button></li>
+          </ul>
+        </div>
+
+        <!-- Visitantes y clientes ven el carrito -->
+        <a *ngIf="sesion.puedeComprar" routerLink="/carrito" routerLinkActive="activo" class="icono-boton" aria-label="Carrito">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 7h12l-1 13H7L6 7Z" /><path d="M9 7a3 3 0 0 1 6 0" /></svg>
+          <span class="contador" *ngIf="tienda.unidadesEnCarrito()">{{ tienda.unidadesEnCarrito() }}</span>
+        </a>
+
+        <a *ngIf="!sesion.usuarioActual" routerLink="/registro" class="boton ms-lg-2">Únete al club</a>
+      </div>
+    </div>
+  </div>
 </header>

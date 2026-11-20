@@ -1,10 +1,10 @@
-<main class="container py-4">
-  <section class="row g-4 align-items-start" *ngIf="producto; else noEncontrado">
+<main class="container-xl py-4 py-lg-5">
+  <section class="row g-4 g-lg-5 align-items-start" *ngIf="producto; else noEncontrado">
     <div class="col-12 col-md-6">
       <img [src]="producto.imagen" [alt]="'Imagen del juego ' + producto.nombre" class="detalle-imagen">
     </div>
     <div class="col-12 col-md-6 d-flex flex-column gap-2">
-      <a [routerLink]="['/categoria', producto.categoria]" class="small">{{ nombreCategoria }}</a>
+      <p class="migas mb-0"><a routerLink="/">Inicio</a> / <a routerLink="/catalogo">Tienda</a> / <a [routerLink]="['/categoria', producto.categoria]">{{ nombreCategoria }}</a></p>
       <h1 class="titulo-detalle">{{ producto.nombre }}</h1>
       <p class="precio">
         <del *ngIf="producto.descuento > 0">{{ producto.precio | peso }}</del>

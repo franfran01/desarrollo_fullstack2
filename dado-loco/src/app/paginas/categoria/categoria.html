@@ -1,18 +1,19 @@
-<main class="container py-4">
+<main class="container-xl py-4 py-lg-5">
   <ng-container *ngIf="categoria; else noEncontrada">
     <section class="cabecera-categoria">
-      <h1>{{ categoria.emoji }} {{ categoria.nombre }}</h1>
+      <p class="migas"><a routerLink="/">Inicio</a> / <a routerLink="/catalogo">Tienda</a> / {{ categoria.nombre }}</p>
+      <h1>{{ categoria.nombre }}</h1>
       <p>{{ categoria.descripcion }}</p>
     </section>
 
-    <section class="grilla row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4" aria-live="polite">
+    <section class="grilla row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3" aria-live="polite">
       <app-ficha-producto *ngFor="let p of productos" [producto]="p" [puedeComprar]="sesion.puedeComprar" />
       <p class="col-12 text-center" *ngIf="!productos.length">Por ahora no hay juegos en esta categoría.</p>
     </section>
 
     <nav class="paginacion d-flex flex-column flex-sm-row flex-wrap justify-content-between gap-3 text-center">
       <a [routerLink]="['/categoria', anterior.id]" class="boton">&larr; {{ anterior.nombre }}</a>
-      <a routerLink="/" class="boton boton-inicio">Volver al inicio</a>
+      <a routerLink="/catalogo" class="boton boton-inicio">Toda la tienda</a>
       <a [routerLink]="['/categoria', siguiente.id]" class="boton">{{ siguiente.nombre }} &rarr;</a>
     </nav>
   </ng-container>

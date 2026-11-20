@@ -1,19 +1,25 @@
-<article class="ficha h-100">
-  <span class="badge-descuento" *ngIf="producto.descuento > 0">-{{ producto.descuento }}%</span>
-  <a [routerLink]="['/producto', producto.id]">
+<article class="ficha">
+  <span class="etiqueta etiqueta-agotado" *ngIf="producto.stock === 0">Agotado</span>
+  <span class="etiqueta etiqueta-oferta" *ngIf="producto.stock > 0 && producto.descuento > 0">-{{ producto.descuento }}%</span>
+  <span class="etiqueta" *ngIf="producto.stock > 0 && !producto.descuento && producto.stock <= 3">Últimas</span>
+
+  <a class="ficha-imagen" [routerLink]="['/producto', producto.id]">
     <img [src]="producto.imagen" [alt]="'Imagen del juego ' + producto.nombre">
   </a>
+
   <div class="ficha-cuerpo">
+    <span class="antetitulo">{{ categoria }}</span>
     <h3><a [routerLink]="['/producto', producto.id]">{{ producto.nombre }}</a></h3>
-    <p class="ficha-desc">{{ producto.descripcion }}</p>
-    <p class="precio">
-      <del *ngIf="producto.descuento > 0">{{ producto.precio | peso }}</del>
-      <strong>{{ tienda.precioFinal(producto) | peso }}</strong>
+    <p class="precio-linea">
+      <span>
+        <del *ngIf="producto.descuento > 0">{{ producto.precio | peso }}</del>
+        {{ tienda.precioFinal(producto) | peso }}
+      </span>
     </p>
-    <p class="descuento si" *ngIf="producto.stock === 0">Agotado</p>
-    <p class="descuento si" *ngIf="producto.stock > 0 && producto.stock <= 3">¡Últimas {{ producto.stock }} unidades!</p>
-    <p class="descuento no" *ngIf="producto.stock > 3">Disponible: {{ producto.stock }}</p>
-    <button *ngIf="puedeComprar" type="button" class="boton mt-auto" [disabled]="producto.stock === 0 || avisando" (click)="agregar()">
+    <p class="ficha-stock" *ngIf="producto.stock === 0">Sin stock por ahora</p>
+    <p class="ficha-stock poco" *ngIf="producto.stock > 0 && producto.stock <= 3">¡Últimas {{ producto.stock }} unidades!</p>
+    <p class="ficha-stock" *ngIf="producto.stock > 3">Disponible: {{ producto.stock }}</p>
+    <button *ngIf="puedeComprar" type="button" class="boton mt-2" [disabled]="producto.stock === 0 || avisando" (click)="agregar()">
       {{ textoBoton }}
     </button>
   </div>

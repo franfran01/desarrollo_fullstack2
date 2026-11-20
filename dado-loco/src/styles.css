@@ -1,26 +1,54 @@
 /* ==========================================================
    Dado Loco - Hoja de estilos principal
+   Estilo de tienda especializada: fondo verde petróleo,
+   detalles dorados y títulos en mayúsculas condensadas.
    ========================================================== */
 
 /* ---------- Variables CSS ---------- */
 :root {
-  --color-primario: #6c2bd9;
-  --color-secundario: #ff4f81;
-  --color-acento: #ffc93c;
-  --color-fondo: #f6f3ff;
-  --color-tarjeta: #ffffff;
-  --color-texto: #2b2540;
-  --color-texto-suave: #6b6585;
-  --color-oferta: #e63946;
-  --color-normal: #2a9d8f;
+  --fondo: #08292b;
+  --fondo-oscuro: #051c1e;
+  --superficie: #0c3639;
+  --superficie-2: #11444a;
+  --borde: rgba(201, 165, 74, 0.28);
+  --borde-suave: rgba(255, 255, 255, 0.08);
+  --dorado: #c9a54a;
+  --dorado-claro: #e2c46e;
+  --crema: #f1ebc4;
+  --papel: #f7f3df;
+  --texto: #d7e2de;
+  --texto-suave: #8fa9a5;
+  --rojo: #c8402f;
+  --verde: #3fa37e;
 
-  --degradado: linear-gradient(135deg, var(--color-primario), var(--color-secundario));
-  --sombra: 0 6px 18px rgba(60, 30, 120, 0.15);
-  --sombra-hover: 0 14px 30px rgba(60, 30, 120, 0.28);
-  --radio: 16px;
-  --espacio: 1.5rem;
-  --fuente: "Segoe UI", Roboto, Arial, sans-serif;
-  --transicion: 0.3s ease;
+  --fuente: "Lato", "Segoe UI", Roboto, Arial, sans-serif;
+  --fuente-titulo: "Anton", "Impact", "Arial Narrow", sans-serif;
+  --fuente-logo: "Cinzel", Georgia, serif;
+  --radio: 4px;
+  --sombra: 0 18px 40px rgba(0, 0, 0, 0.35);
+  --transicion: 0.25s ease;
+}
+
+/* Bootstrap en modo oscuro, con la paleta de la tienda */
+[data-bs-theme="dark"] {
+  --bs-body-bg: var(--fondo);
+  --bs-body-color: var(--texto);
+  --bs-body-font-family: var(--fuente);
+  --bs-emphasis-color: var(--crema);
+  --bs-secondary-color: var(--texto-suave);
+  --bs-secondary-bg: var(--superficie);
+  --bs-tertiary-bg: var(--superficie-2);
+  --bs-border-color: var(--borde);
+  --bs-link-color: var(--dorado-claro);
+  --bs-link-color-rgb: 226, 196, 110;
+  --bs-link-hover-color: var(--crema);
+  --bs-link-hover-color-rgb: 241, 235, 196;
+  --bs-heading-color: var(--crema);
+  --bs-border-radius: var(--radio);
+  --bs-focus-ring-color: rgba(201, 165, 74, 0.35);
+  --bs-form-invalid-color: #f08a7a;
+  --bs-form-invalid-border-color: #e06a58;
+  --bs-dropdown-bg: var(--superficie);
 }
 
 /* ---------- Base ---------- */
@@ -28,22 +56,21 @@ h1, h2, h3, p {
   margin: 0;
 }
 
-h1, h2, h3 {
-  font-weight: 700;
-}
-
-h3 {
-  font-size: 1.17rem;
+h1, h2, h3, .titulo {
+  font-family: var(--fuente-titulo);
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--crema);
+  line-height: 1.05;
 }
 
 body {
   font-family: var(--fuente);
-  background: var(--color-fondo);
-  color: var(--color-texto);
+  background: var(--fondo);
+  color: var(--texto);
   line-height: 1.6;
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
 }
 
 /* En Angular las páginas quedan dentro de <app-root>, así que ahí va la columna flexible */
@@ -67,298 +94,925 @@ a {
   text-decoration: none;
 }
 
+::selection {
+  background: var(--dorado);
+  color: var(--fondo-oscuro);
+}
+
+/* Etiqueta pequeña en mayúsculas sobre los títulos */
+.antetitulo {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--dorado);
+}
+
+.enlace-flecha {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--dorado);
+  transition: color var(--transicion);
+}
+
+.enlace-flecha:hover {
+  color: var(--crema);
+}
+
+/* ---------- Botones ---------- */
+.boton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.4rem;
+  border: 1px solid var(--dorado);
+  border-radius: var(--radio);
+  background: var(--dorado);
+  color: var(--fondo-oscuro);
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  transition: background var(--transicion), color var(--transicion), border-color var(--transicion), transform var(--transicion);
+}
+
+.boton:hover {
+  background: var(--dorado-claro);
+  border-color: var(--dorado-claro);
+  color: var(--fondo-oscuro);
+  transform: translateY(-2px);
+}
+
+/* Botón secundario: solo borde */
+.boton-inicio,
+.boton-borde {
+  background: transparent;
+  color: var(--crema);
+  border-color: rgba(241, 235, 196, 0.45);
+}
+
+.boton-inicio:hover,
+.boton-borde:hover {
+  background: rgba(241, 235, 196, 0.08);
+  border-color: var(--crema);
+  color: var(--crema);
+}
+
+.boton:disabled {
+  opacity: 0.5;
+  transform: none;
+  cursor: not-allowed;
+}
+
 /* ---------- Encabezado y navegación ---------- */
 .encabezado {
-  padding: 0.9rem var(--espacio);
-  background: var(--degradado);
-  color: #fff;
-  box-shadow: var(--sombra);
+  padding: 0.75rem 0;
+  background: rgba(5, 28, 30, 0.92);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--borde-suave);
 }
 
 .logo {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  font-size: 1.5rem;
-  font-weight: 800;
+  gap: 0.55rem;
+  color: var(--crema);
 }
 
 .logo-dado {
-  display: inline-block;
-  font-size: 2rem;
-  animation: girar 6s linear infinite;
+  width: 30px;
+  height: 30px;
+  color: var(--verde);
+  transition: transform 0.6s ease;
 }
 
-.menu {
-  gap: 0.4rem;
+.logo:hover .logo-dado {
+  transform: rotate(180deg);
 }
 
-/* Tres clases para ganarle al padding que Bootstrap define en .navbar-expand-lg */
+.logo-texto {
+  font-family: var(--fuente-logo);
+  font-size: 1.35rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
 .encabezado .menu .nav-link {
-  padding: 0.45rem 0.9rem;
-  border-radius: 999px;
-  color: #fff;
-  font-weight: 600;
-  transition: background var(--transicion), color var(--transicion);
+  padding: 0.5rem 0.9rem;
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--texto);
+  transition: color var(--transicion);
 }
 
 .encabezado .menu .nav-link:hover,
 .encabezado .menu .nav-link.activo,
 .encabezado .menu .dropdown.activo > .nav-link {
-  background: #fff;
-  color: var(--color-primario);
+  color: var(--dorado);
+}
+
+.acciones {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.icono-boton {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: 0;
+  background: none;
+  color: var(--texto);
+  transition: color var(--transicion);
+}
+
+.icono-boton:hover,
+.icono-boton.activo {
+  color: var(--dorado);
+}
+
+.icono-boton svg {
+  width: 19px;
+  height: 19px;
+}
+
+.contador {
+  position: absolute;
+  top: 3px;
+  right: 1px;
+  min-width: 17px;
+  height: 17px;
+  padding: 0 4px;
+  border-radius: 999px;
+  background: var(--dorado);
+  color: var(--fondo-oscuro);
+  font-size: 0.65rem;
+  font-weight: 900;
+  line-height: 17px;
+  text-align: center;
+}
+
+.encabezado .boton {
+  padding: 0.55rem 1rem;
+  font-size: 0.7rem;
 }
 
 .encabezado .navbar-toggler {
-  border-color: rgba(255, 255, 255, 0.7);
+  border-color: var(--borde);
 }
 
-/* ---------- Hero (página principal) ---------- */
+.dropdown-menu {
+  border-color: var(--borde);
+  box-shadow: var(--sombra);
+}
+
+.dropdown-item {
+  font-size: 0.9rem;
+}
+
+.dropdown-item.active,
+.dropdown-item:active {
+  background: var(--dorado);
+  color: var(--fondo-oscuro);
+}
+
+/* En celular el menú desplegado ocupa todo el ancho, con separación */
+@media (max-width: 991.98px) {
+  .encabezado .navbar-collapse {
+    padding-top: 0.75rem;
+  }
+
+  .acciones {
+    padding: 0.5rem 0 0.25rem;
+    border-top: 1px solid var(--borde-suave);
+    margin-top: 0.5rem;
+  }
+}
+
+/* ---------- Portada (inicio) ---------- */
 .hero {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(3.5rem, 8vw, 5.5rem) 1rem 2.5rem;
   text-align: center;
-  padding: clamp(3rem, 8vw, 4.5rem) var(--espacio);
-  color: #fff;
-  background: linear-gradient(-45deg, var(--color-primario), var(--color-secundario), var(--color-acento), var(--color-primario));
-  background-size: 400% 400%;
-  animation: fondo-animado 12s ease infinite;
+  /* Rayos dorados tenues y una trama fina, como papel de mesa de juego */
+  background:
+    repeating-conic-gradient(from 0deg at 50% 62%, rgba(201, 165, 74, 0.07) 0deg 1deg, transparent 1deg 15deg),
+    radial-gradient(ellipse at 50% 60%, rgba(17, 68, 74, 0.9), transparent 70%),
+    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.025) 0 1px, transparent 1px 4px),
+    var(--fondo);
 }
 
 .hero h1 {
-  font-size: clamp(2.4rem, 7vw, 3.5rem);
-  letter-spacing: 2px;
-  text-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
-  animation: flotar 3s ease-in-out infinite;
+  max-width: 780px;
+  margin: 1rem auto 1.1rem;
+  font-size: clamp(2.6rem, 7.5vw, 4.6rem);
 }
 
 .hero p {
-  font-size: 1.2rem;
-  max-width: 600px;
-  margin: 0.5rem auto 0;
+  max-width: 520px;
+  margin: 0 auto;
+  color: var(--texto);
 }
 
-.titulo-seccion {
-  text-align: center;
-  font-size: 2rem;
-  margin: 1rem 0 2rem;
-  color: var(--color-primario);
-}
-
-/* ---------- Tarjetas (las columnas las define la grilla de Bootstrap) ---------- */
-.categoria,
-.ficha {
-  position: relative;
-  background: var(--color-tarjeta);
-  border-radius: var(--radio);
-  overflow: hidden;
-  box-shadow: var(--sombra);
-  transition: transform var(--transicion), box-shadow var(--transicion);
-  animation: aparecer 0.7s ease both;
-}
-
-/* Las tarjetas aparecen una tras otra */
-.grilla > :nth-child(2) > * { animation-delay: 0.15s; }
-.grilla > :nth-child(3) > * { animation-delay: 0.3s; }
-.grilla > :nth-child(4) > * { animation-delay: 0.45s; }
-
-.categoria:hover,
-.ficha:hover {
-  transform: translateY(-8px);
-  box-shadow: var(--sombra-hover);
-}
-
-.categoria a {
+/* Abanico de cajas de juegos */
+.abanico {
   display: flex;
-  flex-direction: column;
-  height: 100%;
-}
-
-.categoria img,
-.ficha img {
-  aspect-ratio: 4 / 3;
-  object-fit: cover;
-  width: 100%;
-  transition: transform var(--transicion);
-}
-
-.categoria:hover img,
-.ficha:hover img {
-  transform: scale(1.05);
-}
-
-.categoria h3,
-.categoria p {
+  justify-content: center;
+  align-items: flex-end;
+  margin: 2.8rem auto 2.6rem;
   padding: 0 1rem;
 }
 
-.categoria h3 {
-  margin-top: 1rem;
-  color: var(--color-primario);
+.abanico a {
+  --giro: 0deg;
+  --alto: 0px;
+  flex: 0 0 auto;
+  width: clamp(78px, 13vw, 132px);
+  margin: 0 clamp(-14px, -1.4vw, -6px);
+  padding: 6px;
+  background: var(--papel);
+  border: 1px solid var(--dorado);
+  box-shadow: 0 0 0 4px var(--fondo), 0 0 0 5px var(--borde), var(--sombra);
+  transform: translateY(var(--alto)) rotate(var(--giro));
+  transition: transform 0.35s ease;
 }
 
-.categoria p {
-  color: var(--color-texto-suave);
-  flex: 1;
+.abanico a:hover {
+  transform: translateY(calc(var(--alto) - 14px)) rotate(var(--giro)) scale(1.05);
+  z-index: 2;
 }
 
-.categoria .boton {
-  margin: 1rem;
-  align-self: flex-start;
+.abanico img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: contain;
 }
 
-/* ---------- Página de categoría ---------- */
-.cabecera-categoria {
-  text-align: center;
-  margin-bottom: 2rem;
+.abanico a:nth-child(1) { --giro: -24deg; --alto: 34px; }
+.abanico a:nth-child(2) { --giro: -16deg; --alto: 14px; }
+.abanico a:nth-child(3) { --giro: -8deg;  --alto: 3px; }
+.abanico a:nth-child(4) { --giro: 0deg;   --alto: 0px; z-index: 1; }
+.abanico a:nth-child(5) { --giro: 8deg;   --alto: 3px; }
+.abanico a:nth-child(6) { --giro: 16deg;  --alto: 14px; }
+.abanico a:nth-child(7) { --giro: 24deg;  --alto: 34px; }
+
+@media (max-width: 575.98px) {
+  .abanico a:nth-child(1),
+  .abanico a:nth-child(7) {
+    display: none;
+  }
 }
 
-.cabecera-categoria h1 {
-  font-size: clamp(2rem, 5vw, 2.5rem);
-  background: var(--degradado);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+.hero-botones {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
 }
 
-.cabecera-categoria p {
-  color: var(--color-texto-suave);
+.hero-nota {
+  margin-top: 2rem !important;
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--texto-suave) !important;
 }
 
-.ficha-cuerpo {
-  padding: 1rem;
+/* Cinta de categorías que se desplaza */
+.cinta {
+  overflow: hidden;
+  padding: 0.85rem 0;
+  background: var(--fondo-oscuro);
+  border-block: 1px solid var(--borde);
+}
+
+.cinta-pista {
+  display: flex;
+  width: max-content;
+  animation: cinta 28s linear infinite;
+}
+
+.cinta span {
+  padding: 0 1.4rem;
+  font-family: var(--fuente-titulo);
+  font-size: 1.05rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--dorado);
+  white-space: nowrap;
+}
+
+.cinta span::after {
+  content: "✦";
+  margin-left: 2.8rem;
+  font-size: 0.8rem;
+  vertical-align: middle;
+  color: var(--dorado);
+  opacity: 0.7;
+}
+
+/* ---------- Secciones ---------- */
+.seccion {
+  padding: clamp(3rem, 7vw, 4.5rem) 0;
+}
+
+.seccion-cabecera {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 1.75rem;
+}
+
+.titulo-seccion {
+  font-size: clamp(1.7rem, 4vw, 2.2rem);
+}
+
+/* Tarjetas de categoría */
+.tarjeta-categoria {
+  position: relative;
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;
+  height: 100%;
+  min-height: 150px;
+  padding: 1.25rem;
+  overflow: hidden;
+  background:
+    repeating-conic-gradient(from 0deg at 100% 0%, rgba(201, 165, 74, 0.08) 0deg 1deg, transparent 1deg 12deg),
+    var(--superficie);
+  border: 1px solid var(--borde);
+  border-radius: var(--radio);
+  transition: border-color var(--transicion), transform var(--transicion), background-color var(--transicion);
+}
+
+.tarjeta-categoria:hover {
+  border-color: var(--dorado);
+  transform: translateY(-4px);
+}
+
+.tarjeta-categoria .forma {
+  width: 22px;
+  height: 22px;
+  margin-bottom: auto;
+  background: var(--verde);
+}
+
+.forma-estrategia { clip-path: polygon(50% 0, 100% 100%, 0 100%); }
+.forma-familiares { border-radius: 50%; }
+.forma-cartas { clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%); }
+.forma-cooperativos { border-radius: 3px; }
+
+.tarjeta-categoria h3 {
+  margin-top: 1.5rem;
+  font-size: 1.3rem;
+}
+
+.tarjeta-categoria small {
+  display: flex;
+  justify-content: space-between;
+  color: var(--texto-suave);
+}
+
+.tarjeta-categoria small span:last-child {
+  color: var(--dorado);
+  transition: transform var(--transicion);
+}
+
+.tarjeta-categoria:hover small span:last-child {
+  transform: translateX(4px);
+}
+
+/* La tienda y el club */
+.tienda-club {
+  position: relative;
+  padding: clamp(3rem, 8vw, 5.5rem) 1rem;
+  /* Foto de la tienda; si no cargara, queda el degradado café de abajo */
+  background:
+    linear-gradient(rgba(5, 28, 30, 0.55), rgba(5, 28, 30, 0.7)),
+    url("/img/tienda-club.jpg") center / cover no-repeat,
+    radial-gradient(ellipse at 30% 40%, #4a3320, transparent 60%),
+    radial-gradient(ellipse at 75% 70%, #2d1f14, transparent 55%),
+    #1a1410;
+}
+
+.tarjeta-tienda {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 1rem 1rem 1.5rem;
+  background: var(--crema);
+  color: #23312f;
+  box-shadow: var(--sombra);
+}
+
+.tarjeta-tienda h2 {
+  margin: 1.25rem 0 1rem;
+  font-size: 2rem;
+  color: #0b2b2d;
+}
+
+.tarjeta-tienda .foto {
+  aspect-ratio: 16 / 10;
+  background:
+    linear-gradient(rgba(5, 28, 30, 0.1), rgba(5, 28, 30, 0.25)),
+    url("/img/tienda-club.jpg") center / cover no-repeat,
+    linear-gradient(135deg, #0c3639, #3b2a1b);
+}
+
+.tarjeta-tienda dl {
+  display: grid;
+  grid-template-columns: 90px 1fr;
+  gap: 0.6rem 1rem;
+  margin: 0 0 1.25rem;
+  font-size: 0.85rem;
+}
+
+.tarjeta-tienda dt {
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding-top: 0.15rem;
+}
+
+.tarjeta-tienda dd {
+  margin: 0;
+}
+
+.tarjeta-tienda .acciones-tienda {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid rgba(11, 43, 45, 0.18);
+}
+
+.tarjeta-tienda .enlace-flecha {
+  color: #0b2b2d;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+/* ---------- Tarjeta de producto ---------- */
+.ficha {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: var(--superficie);
+  border: 1px solid var(--borde);
+  border-radius: var(--radio);
+  transition: border-color var(--transicion), transform var(--transicion), box-shadow var(--transicion);
+  animation: aparecer 0.6s ease both;
+}
+
+.ficha:hover {
+  border-color: var(--dorado);
+  transform: translateY(-4px);
+  box-shadow: var(--sombra);
+}
+
+.ficha-imagen {
+  display: block;
+  margin: 0.6rem;
+  padding: 0.75rem;
+  background: var(--papel);
+  outline: 1px solid var(--dorado);
+  outline-offset: -5px;
+  overflow: hidden;
+}
+
+.ficha-imagen img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: contain;
+  transition: transform 0.4s ease;
+}
+
+.ficha:hover .ficha-imagen img {
+  transform: scale(1.05);
+}
+
+.etiqueta {
+  position: absolute;
+  top: 1.1rem;
+  left: 1.1rem;
+  z-index: 1;
+  padding: 0.15rem 0.45rem;
+  font-size: 0.62rem;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  background: var(--dorado);
+  color: var(--fondo-oscuro);
+}
+
+.etiqueta-oferta { background: var(--rojo); color: #fff; }
+.etiqueta-agotado { background: #5b6b69; color: #fff; }
+
+.ficha-cuerpo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.4rem 1rem 1.2rem;
+  text-align: center;
+}
+
+.ficha-cuerpo .antetitulo {
+  font-size: 0.62rem;
+  color: var(--texto-suave);
 }
 
 .ficha h3 {
-  color: var(--color-primario);
+  font-family: var(--fuente);
+  font-size: 1.02rem;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-transform: none;
 }
 
-.ficha-desc {
-  color: var(--color-texto-suave);
-  font-size: 0.95rem;
+.ficha h3 a:hover {
+  color: var(--dorado);
+}
+
+/* Precio entre dos líneas finas */
+.precio-linea {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  width: 100%;
+  font-size: 0.9rem;
+  color: var(--dorado);
+}
+
+.precio-linea::before,
+.precio-linea::after {
+  content: "";
+  flex: 1;
+  max-width: 34px;
+  height: 1px;
+  background: var(--borde);
+  margin: 0 auto;
+}
+
+.precio-linea del {
+  color: var(--texto-suave);
+  font-size: 0.8rem;
+}
+
+.ficha-stock {
+  font-size: 0.75rem;
+  color: var(--texto-suave);
+}
+
+.ficha-stock.poco { color: var(--dorado-claro); }
+
+.ficha .boton {
+  margin-top: auto;
+  padding: 0.5rem 0.9rem;
+  font-size: 0.64rem;
+  background: transparent;
+  color: var(--dorado);
+}
+
+.ficha .boton:hover:not(:disabled) {
+  background: var(--dorado);
+  color: var(--fondo-oscuro);
+}
+
+/* Las tarjetas aparecen una tras otra */
+.grilla > :nth-child(2) .ficha { animation-delay: 0.08s; }
+.grilla > :nth-child(3) .ficha { animation-delay: 0.16s; }
+.grilla > :nth-child(4) .ficha { animation-delay: 0.24s; }
+
+/* Las fotos de las cajas traen fondo blanco: "multiply" lo funde con el papel crema */
+.ficha-imagen img,
+.abanico img,
+.detalle-imagen,
+.miniatura {
+  mix-blend-mode: multiply;
+}
+
+/* ---------- Encabezado de páginas internas ---------- */
+.cabecera-categoria {
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--borde-suave);
+}
+
+.cabecera-categoria h1 {
+  font-size: clamp(2.2rem, 6vw, 3.2rem);
+}
+
+.cabecera-categoria p {
+  margin-top: 0.4rem;
+  color: var(--texto-suave);
+}
+
+.migas {
+  margin-bottom: 0.6rem;
+  font-size: 0.68rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--texto-suave);
+}
+
+.migas a:hover {
+  color: var(--dorado);
+}
+
+/* ---------- Catálogo con filtros ---------- */
+.filtros {
+  position: sticky;
+  top: 90px;
+}
+
+.filtros h2 {
+  margin: 1.6rem 0 0.7rem;
+  font-family: var(--fuente);
+  font-size: 0.7rem;
+  font-weight: 900;
+  letter-spacing: 0.2em;
+  color: var(--crema);
+}
+
+.buscador {
+  position: relative;
+}
+
+.buscador svg {
+  position: absolute;
+  top: 50%;
+  left: 0.75rem;
+  width: 15px;
+  height: 15px;
+  transform: translateY(-50%);
+  color: var(--texto-suave);
+  pointer-events: none;
+}
+
+.buscador .form-control {
+  padding-left: 2.2rem;
+}
+
+/* Chips: radios con aspecto de etiqueta */
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.chip input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.chip span {
+  display: inline-block;
+  padding: 0.3rem 0.8rem;
+  border: 1px solid var(--borde);
+  border-radius: 999px;
+  font-size: 0.78rem;
+  cursor: pointer;
+  transition: background var(--transicion), color var(--transicion), border-color var(--transicion);
+}
+
+.chip span:hover {
+  border-color: var(--dorado);
+}
+
+.chip input:checked + span {
+  background: var(--dorado);
+  border-color: var(--dorado);
+  color: var(--fondo-oscuro);
+  font-weight: 700;
+}
+
+.chip input:focus-visible + span {
+  outline: 2px solid var(--crema);
+  outline-offset: 2px;
+}
+
+.resultados {
+  font-size: 0.8rem;
+  color: var(--texto-suave);
+}
+
+/* ---------- Formularios ---------- */
+.formulario {
+  padding: clamp(1.25rem, 4vw, 2rem);
+  background: var(--superficie);
+  border: 1px solid var(--borde);
+  border-radius: var(--radio);
+}
+
+.form-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--crema);
+}
+
+.form-control,
+.form-select {
+  background-color: var(--fondo-oscuro);
+  border-color: var(--borde);
+}
+
+.form-control:focus,
+.form-select:focus {
+  background-color: var(--fondo-oscuro);
+  border-color: var(--dorado);
+  box-shadow: 0 0 0 0.2rem rgba(201, 165, 74, 0.25);
+}
+
+.form-control:disabled {
+  background-color: var(--superficie-2);
+}
+
+.form-control[type="date"] {
+  color-scheme: dark;
+}
+
+/* ---------- Detalle de producto ---------- */
+.detalle-imagen {
+  width: 100%;
+  padding: 2rem;
+  aspect-ratio: 1;
+  object-fit: contain;
+  background: var(--papel);
+  outline: 1px solid var(--dorado);
+  outline-offset: -10px;
+}
+
+.titulo-detalle {
+  font-size: clamp(2.2rem, 5vw, 3.2rem);
 }
 
 .precio {
   display: flex;
   align-items: baseline;
-  gap: 0.6rem;
-  font-size: 1.4rem;
+  gap: 0.75rem;
+  font-size: 1.8rem;
+  color: var(--dorado);
 }
 
 .precio del {
-  font-size: 1rem;
-  color: var(--color-texto-suave);
+  font-size: 1.1rem;
+  color: var(--texto-suave);
+}
+
+.badge-descuento {
+  padding: 0.2rem 0.55rem;
+  font-size: 0.75rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  background: var(--rojo);
+  color: #fff;
 }
 
 .descuento {
   align-self: flex-start;
-  padding: 0.2rem 0.7rem;
-  border-radius: 999px;
   font-size: 0.85rem;
   font-weight: 700;
-  color: #fff;
 }
 
-.descuento.si { background: var(--color-oferta); }
-.descuento.no { background: var(--color-normal); }
+.descuento.si { color: var(--dorado-claro); }
+.descuento.no { color: var(--verde); }
 
-.badge-descuento {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  z-index: 1;
-  padding: 0.4rem 0.8rem;
-  border-radius: 999px;
-  background: var(--color-acento);
-  color: var(--color-texto);
-  font-weight: 800;
-  box-shadow: var(--sombra);
-  animation: latido 1.4s ease-in-out infinite;
+/* ---------- Tablas y panel de administración ---------- */
+.tabla-tienda {
+  padding: 0.5rem 1rem;
+  background: var(--superficie);
+  border: 1px solid var(--borde);
+  border-radius: var(--radio);
 }
 
-/* ---------- Botones y paginación ---------- */
-.boton {
-  display: inline-block;
-  padding: 0.6rem 1.2rem;
-  border: 0;
-  border-radius: 999px;
-  background: var(--degradado);
-  color: #fff;
-  font-weight: 700;
-  transition: transform var(--transicion), box-shadow var(--transicion);
+.tabla-tienda .table {
+  --bs-table-bg: transparent;
 }
 
-.boton:hover {
-  transform: scale(1.06);
-  box-shadow: var(--sombra-hover);
+.tabla-tienda th {
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--crema);
+}
+
+.miniatura {
+  width: 52px;
+  aspect-ratio: 1;
+  padding: 3px;
+  object-fit: contain;
+  background: var(--papel);
+}
+
+.resumen {
+  height: 100%;
+  padding: 1.1rem;
+  background: var(--superficie);
+  border: 1px solid var(--borde);
+  border-radius: var(--radio);
+  font-size: 0.8rem;
+  color: var(--texto-suave);
+}
+
+.resumen span {
+  display: block;
+  font-family: var(--fuente-titulo);
+  font-size: 2rem;
+  color: var(--dorado);
 }
 
 .paginacion {
   margin-top: 2.5rem;
 }
 
-.boton-inicio {
-  background: var(--color-acento);
-  color: var(--color-texto);
-}
-
-/* ---------- Formulario de registro ---------- */
-.formulario {
-  padding: var(--espacio);
-  background: var(--color-tarjeta);
-  border-radius: var(--radio);
-  box-shadow: var(--sombra);
-  animation: aparecer 0.7s ease both;
-}
-
-.formulario .form-control:focus {
-  border-color: var(--color-primario);
-  box-shadow: 0 0 0 0.25rem rgba(108, 43, 217, 0.25);
-}
-
 /* ---------- Pie de página ---------- */
 .pie {
-  margin-top: 3rem;
-  padding: 1.5rem;
-  text-align: center;
-  background: var(--color-texto);
-  color: #fff;
+  margin-top: 4rem;
+  padding: 3rem 0 1.25rem;
+  background: var(--fondo-oscuro);
+  border-top: 1px solid var(--borde-suave);
+  font-size: 0.85rem;
+}
+
+/* El inicio termina con la foto de la tienda pegada al pie */
+app-inicio + app-pie .pie {
+  margin-top: 0;
+}
+
+.pie p {
+  color: var(--texto-suave);
+}
+
+.pie h2 {
+  margin-bottom: 0.9rem;
+  font-family: var(--fuente);
+  font-size: 0.68rem;
+  font-weight: 900;
+  letter-spacing: 0.2em;
+  color: var(--crema);
+}
+
+.pie ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.pie li + li {
+  margin-top: 0.35rem;
+}
+
+.pie ul a {
+  color: var(--texto-suave);
+  transition: color var(--transicion);
+}
+
+.pie ul a:hover {
+  color: var(--dorado);
+}
+
+.pie-legal {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-top: 2.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--borde-suave);
+  font-size: 0.75rem;
 }
 
 /* ==========================================================
    Animaciones (@keyframes)
    ========================================================== */
 
-/* 1. Las tarjetas aparecen deslizándose hacia arriba */
+/* Las tarjetas aparecen deslizándose hacia arriba */
 @keyframes aparecer {
-  from { opacity: 0; transform: translateY(30px); }
+  from { opacity: 0; transform: translateY(20px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* 2. El dado del logo gira */
-@keyframes girar {
-  from { transform: rotate(0deg); }
-  to   { transform: rotate(360deg); }
-}
-
-/* 3. El título principal flota */
-@keyframes flotar {
-  0%, 100% { transform: translateY(0); }
-  50%      { transform: translateY(-10px); }
-}
-
-/* 4. La etiqueta de descuento late */
-@keyframes latido {
-  0%, 100% { transform: scale(1); }
-  50%      { transform: scale(1.15); }
-}
-
-/* 5. El fondo del hero cambia de color */
-@keyframes fondo-animado {
-  0%   { background-position: 0% 50%; }
-  50%  { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+/* La cinta de categorías avanza sin fin (el contenido va duplicado) */
+@keyframes cinta {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
 }
 
 /* Accesibilidad: respeta a quien prefiere menos movimiento */
@@ -369,80 +1023,4 @@ a {
     animation: none !important;
     transition: none !important;
   }
-}
-
-/* ---------- Tienda: fichas con botón, detalle, tablas y panel ---------- */
-.ficha {
-  display: flex;
-  flex-direction: column;
-}
-
-.ficha-cuerpo {
-  flex: 1;
-}
-
-.ficha > a {
-  display: block;
-  overflow: hidden;
-}
-
-.ficha h3 a:hover {
-  color: var(--color-secundario);
-}
-
-.boton:disabled {
-  opacity: 0.6;
-  transform: none;
-  cursor: not-allowed;
-}
-
-.detalle-imagen {
-  width: 100%;
-  border-radius: var(--radio);
-  box-shadow: var(--sombra);
-}
-
-.titulo-detalle {
-  color: var(--color-primario);
-}
-
-.miniatura {
-  width: 56px;
-  aspect-ratio: 4 / 3;
-  object-fit: cover;
-  border-radius: 8px;
-}
-
-.tabla-tienda {
-  background: var(--color-tarjeta);
-  border-radius: var(--radio);
-  box-shadow: var(--sombra);
-  padding: 0.5rem 1rem;
-}
-
-.resumen {
-  height: 100%;
-  padding: 1rem;
-  background: var(--color-tarjeta);
-  border-radius: var(--radio);
-  box-shadow: var(--sombra);
-  color: var(--color-texto-suave);
-}
-
-.resumen span {
-  display: block;
-  font-size: 1.8rem;
-  font-weight: 800;
-  color: var(--color-primario);
-}
-
-/* Las fotos de las cajas tienen formas distintas: se muestran completas, sin recortar */
-.ficha img,
-.miniatura {
-  object-fit: contain;
-  background: #fff;
-}
-
-.ficha img {
-  padding: 0.75rem;
 }

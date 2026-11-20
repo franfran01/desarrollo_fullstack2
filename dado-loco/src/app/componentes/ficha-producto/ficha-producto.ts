@@ -20,6 +20,10 @@ export class FichaProducto {
   textoBoton = 'Agregar al carrito';
   avisando = false;
 
+  get categoria(): string {
+    return this.tienda.buscarCategoria(this.producto.categoria)?.nombre ?? '';
+  }
+
   // Muestra en el botón que se agregó, para que el cambio se vea sin salir de la página
   agregar(): void {
     const agregados = this.tienda.agregarAlCarrito(this.producto.id);

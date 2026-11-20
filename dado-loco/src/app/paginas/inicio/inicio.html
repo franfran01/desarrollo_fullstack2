@@ -1,24 +1,75 @@
 <main>
+  <!-- Portada -->
   <section class="hero">
-    <h1>Dado Loco</h1>
-    <p>Los mejores juegos de mesa para compartir con amigos y familia.</p>
+    <span class="antetitulo">Para fanáticos de los juegos de mesa</span>
+    <h1>Un lugar para los que se la juegan</h1>
+    <p>Juegos elegidos uno a uno, desde partidas rápidas con amigos hasta épicas de cuatro horas. Solo los buenos.</p>
+
+    <div class="abanico">
+      <a *ngFor="let p of abanico" [routerLink]="['/producto', p.id]" [attr.aria-label]="p.nombre">
+        <img [src]="p.imagen" alt="">
+      </a>
+    </div>
+
+    <div class="hero-botones">
+      <a routerLink="/catalogo" class="boton">Ver juegos</a>
+      <a routerLink="/" fragment="tienda" class="boton boton-borde">Encuentra la tienda</a>
+    </div>
+    <p class="hero-nota">{{ tienda.productos.length }} juegos en catálogo · Retiro gratis en tienda</p>
   </section>
 
-  <section class="container py-4">
-    <h2 class="titulo-seccion">Nuestras categorías</h2>
-    <div class="grilla row row-cols-1 row-cols-sm-2 row-cols-lg-4 g-4">
-      <!-- Antes eran 4 bloques escritos a mano; ahora se repite uno por cada categoría -->
+  <!-- Cinta con las categorías (duplicada para que el movimiento no tenga cortes) -->
+  <div class="cinta" aria-hidden="true">
+    <div class="cinta-pista">
+      <span *ngFor="let c of categorias.concat(categorias, categorias, categorias)">{{ c.nombre }}</span>
+    </div>
+  </div>
+
+  <!-- Categorías -->
+  <section class="seccion container-xl">
+    <div class="seccion-cabecera">
+      <h2 class="titulo-seccion">Explora por categoría</h2>
+      <a routerLink="/catalogo" class="enlace-flecha">Ver todo &rarr;</a>
+    </div>
+    <div class="row row-cols-2 row-cols-lg-4 g-3">
       <div class="col" *ngFor="let c of categorias">
-        <article class="categoria h-100">
-          <a [routerLink]="['/categoria', c.id]">
-            <img [src]="c.imagen" [alt]="'Imagen de la categoría ' + c.nombre">
-            <h3>{{ c.nombre }}</h3>
-            <p>{{ c.descripcion }}</p>
-            <span class="boton">Ver juegos</span>
-          </a>
-        </article>
+        <a [routerLink]="['/categoria', c.id]" class="tarjeta-categoria">
+          <span class="forma" [class]="'forma forma-' + c.id"></span>
+          <h3>{{ c.nombre }}</h3>
+          <small><span>{{ cantidadEn(c.id) }} juegos</span><span>&rarr;</span></small>
+        </a>
       </div>
     </div>
-    <p class="text-center mt-4"><a routerLink="/catalogo" class="boton">Ver todo el catálogo</a></p>
+  </section>
+
+  <!-- Destacados -->
+  <section class="seccion container-xl pt-0">
+    <div class="seccion-cabecera">
+      <h2 class="titulo-seccion">Destacados de la semana</h2>
+      <a routerLink="/catalogo" class="enlace-flecha">Ver tienda &rarr;</a>
+    </div>
+    <div class="grilla row row-cols-2 row-cols-lg-4 g-3">
+      <app-ficha-producto *ngFor="let p of destacados" [producto]="p" [puedeComprar]="sesion.puedeComprar" />
+    </div>
+  </section>
+
+  <!-- La tienda y el club -->
+  <section class="tienda-club" id="tienda">
+    <article class="tarjeta-tienda">
+      <div class="foto" role="img" aria-label="Mesas de juego en la tienda Dado Loco"></div>
+      <h2>La tienda y el club</h2>
+      <dl>
+        <dt>Dirección</dt>
+        <dd>Av. Los Dados 742, Providencia<br>Santiago</dd>
+        <dt>Contacto</dt>
+        <dd>+56 2 2345 6789<br>hola&#64;dadoloco.cl</dd>
+        <dt>Horario</dt>
+        <dd>Lun – Vie 11:00 – 21:00<br>Sábado 10:00 – 22:00</dd>
+      </dl>
+      <div class="acciones-tienda">
+        <a routerLink="/catalogo" class="boton">Ver la tienda</a>
+        <a routerLink="/registro" class="enlace-flecha">Únete al club</a>
+      </div>
+    </article>
   </section>
 </main>

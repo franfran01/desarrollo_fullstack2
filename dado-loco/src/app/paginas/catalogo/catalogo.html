@@ -1,25 +1,43 @@
-<main class="container py-4">
-  <section class="cabecera-categoria">
-    <h1>Catálogo</h1>
-    <p>Todos nuestros juegos de mesa en un solo lugar.</p>
+<main class="container-xl py-4 py-lg-5">
+  <section class="cabecera-categoria d-flex flex-wrap justify-content-between align-items-end gap-3">
+    <div>
+      <p class="migas"><a routerLink="/">Inicio</a> / Tienda</p>
+      <h1>Juegos de mesa</h1>
+      <p>Cada título elegido y probado en nuestras mesas.</p>
+    </div>
+    <p class="resultados" aria-live="polite">{{ productosFiltrados.length }} resultados</p>
   </section>
 
-  <form class="row g-3 mb-4 justify-content-center" role="search" [formGroup]="filtros">
-    <div class="col-12 col-sm-6 col-lg-4">
-      <label for="filtro-texto" class="form-label">Buscar por nombre</label>
-      <input type="search" class="form-control" id="filtro-texto" formControlName="texto" placeholder="Ej: Catan">
-    </div>
-    <div class="col-12 col-sm-6 col-lg-3">
-      <label for="filtro-categoria" class="form-label">Categoría</label>
-      <select class="form-select" id="filtro-categoria" formControlName="categoria">
-        <option value="">Todas</option>
-        <option *ngFor="let c of categorias" [value]="c.id">{{ c.nombre }}</option>
-      </select>
-    </div>
-  </form>
+  <div class="row g-4">
+    <!-- Filtros: formulario reactivo, la lista se recalcula con cada cambio -->
+    <aside class="col-12 col-lg-3">
+      <form class="filtros" role="search" [formGroup]="filtros">
+        <label for="filtro-texto" class="visually-hidden">Buscar por nombre</label>
+        <div class="buscador">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7" /><path d="m20 20-3.5-3.5" /></svg>
+          <input type="search" class="form-control" id="filtro-texto" formControlName="texto" placeholder="Buscar juegos">
+        </div>
 
-  <section class="grilla row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4" aria-live="polite">
-    <app-ficha-producto *ngFor="let p of productosFiltrados" [producto]="p" [puedeComprar]="sesion.puedeComprar" />
-    <p class="col-12 text-center" *ngIf="!productosFiltrados.length">No encontramos juegos con esa búsqueda.</p>
-  </section>
+        <fieldset>
+          <legend class="visually-hidden">Categoría</legend>
+          <h2 aria-hidden="true">Categoría</h2>
+          <div class="chips">
+            <label class="chip"><input type="radio" formControlName="categoria" value=""><span>Todas</span></label>
+            <label class="chip" *ngFor="let c of categorias">
+              <input type="radio" formControlName="categoria" [value]="c.id"><span>{{ c.nombre }}</span>
+            </label>
+          </div>
+        </fieldset>
+
+        <button type="button" class="enlace-flecha border-0 bg-transparent p-0 mt-4" (click)="filtros.reset()">Limpiar filtros</button>
+      </form>
+    </aside>
+
+    <section class="col-12 col-lg-9">
+      <div class="grilla row row-cols-2 row-cols-md-3 g-3">
+        <app-ficha-producto *ngFor="let p of productosFiltrados" [producto]="p" [puedeComprar]="sesion.puedeComprar" />
+      </div>
+      <p class="text-center text-body-secondary py-5" *ngIf="!productosFiltrados.length">No encontramos juegos con esa búsqueda.</p>
+    </section>
+  </div>
 </main>

@@ -2,13 +2,14 @@ import { Component, inject } from '@angular/core';
 import { NgFor, NgIf } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CATEGORIAS, Producto } from '../../datos/datos';
+import { RouterLink } from '@angular/router';
 import { FichaProducto } from '../../componentes/ficha-producto/ficha-producto';
 import { SesionService } from '../../servicios/sesion.service';
 import { TiendaService } from '../../servicios/tienda.service';
 
 @Component({
   selector: 'app-catalogo',
-  imports: [NgFor, NgIf, ReactiveFormsModule, FichaProducto],
+  imports: [NgFor, NgIf, ReactiveFormsModule, RouterLink, FichaProducto],
   templateUrl: './catalogo.html',
 })
 export class Catalogo {
