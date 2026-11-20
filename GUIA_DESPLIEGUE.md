@@ -6,18 +6,18 @@ Guía para clonar y correr el proyecto en otra computadora. Está escrita para q
 
 - Repositorio: <https://github.com/franfran01/desarrollo_fullstack2>
 - Rama: `main`
-- Un sitio web **estático** (HTML, CSS, JavaScript y Bootstrap 5.3 por CDN) por cada semana del curso:
+- Las semanas 1 a 3 son sitios web **estáticos** (HTML, CSS, JavaScript y Bootstrap 5.3 por CDN), uno por semana. Desde la semana 4 el proyecto vive en una sola carpeta, `dado-loco/` en la raíz, y cada semana se trabaja sobre ella (el avance semanal queda en el historial de git):
 
 | Carpeta | Contenido |
 |---|---|
 | `Semana 01/dado-loco/` | Sitio con HTML y CSS |
 | `Semana 02/dado-loco/` | Bootstrap y formulario de registro con validaciones |
 | `Semana 03/dado-loco/` | Tienda con sesión, roles, carrito y administración |
-| `Semana 04/dado-loco/` | La tienda de la semana 3 pasada a Angular 20 (la versión más reciente) |
+| `dado-loco/` | Proyecto Angular 20, desde la semana 4 en adelante (semana 4: la tienda de la semana 3 pasada a Angular) |
 
 Las semanas 1 a 3 no tienen backend, base de datos, `package.json` ni dependencias que instalar; sus datos (usuarios, carrito, pedidos) se guardan en el `localStorage` del navegador.
 
-La semana 4 es un proyecto Angular: necesita Node.js y se ejecuta con `npm install` y `ng serve` desde `Semana 04/dado-loco/` (ver su `README.md`). Sus datos son estáticos, en memoria.
+Desde la semana 4 es un proyecto Angular: necesita Node.js y se ejecuta con `npm install` y `ng serve` desde `dado-loco/` (ver su `README.md`). Sus datos son estáticos, en memoria.
 
 ## 2. Requisitos
 
